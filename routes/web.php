@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicInvitationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\TemplateController;
 
@@ -121,6 +122,11 @@ Route::middleware(['auth', 'role:admin'])
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/undangan/{invitation:slug}', [
+    PublicInvitationController::class,
+    'show'
+])->name('invitation.show');
 
 
 /*

@@ -33,7 +33,7 @@
             UNDANGAN
         </div>
 
-        <a href="#">
+        <a href="{{ route('admin.invitations.index') }}">
             <i class="bi bi-envelope-paper-fill"></i>
             <span>Undangan</span>
         </a>

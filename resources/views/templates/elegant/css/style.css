@@ -1,0 +1,268 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f8f5f0;
+    color: #333;
+    overflow: hidden;
+}
+
+
+/* =================================
+   OPENING SCREEN
+================================= */
+
+.opening-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            rgba(30, 25, 20, 0.55),
+            rgba(30, 25, 20, 0.65)
+        ),
+        url('../images/cover.jpg') center center / cover no-repeat;
+
+    transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease,
+        transform 0.8s ease;
+}
+
+
+/* Overlay */
+
+.opening-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.15);
+}
+
+
+/* Content */
+
+.opening-content {
+    position: relative;
+    z-index: 2;
+
+    width: 90%;
+    max-width: 700px;
+
+    color: #fff;
+
+    animation: fadeUp 1.2s ease;
+}
+
+
+/* Subtitle */
+
+.opening-subtitle {
+    font-size: 15px;
+    letter-spacing: 5px;
+    margin-bottom: 30px;
+}
+
+
+/* Names */
+
+.opening-name {
+    font-size: clamp(42px, 8vw, 75px);
+    font-weight: normal;
+    line-height: 1.1;
+    margin: 5px 0;
+}
+
+
+/* & */
+
+.opening-and {
+    font-size: 35px;
+    margin: 15px 0;
+    font-style: italic;
+}
+
+
+/* Date */
+
+.opening-date {
+    margin-top: 30px;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+
+/* Button */
+
+.open-button {
+    margin-top: 40px;
+
+    padding: 14px 28px;
+
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 50px;
+
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.open-button span {
+    margin-right: 8px;
+}
+
+.open-button:hover {
+    background: #fff;
+    color: #333;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.2);
+}
+
+
+/* =================================
+   OPENING ANIMATION
+================================= */
+
+.opening-screen.closed {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.05);
+}
+
+
+/* =================================
+   MAIN INVITATION
+================================= */
+
+.invitation-content {
+    min-height: 100vh;
+
+    opacity: 0;
+
+    transition: opacity 1s ease;
+}
+
+.invitation-content.show {
+    opacity: 1;
+}
+
+
+/* =================================
+   HERO
+================================= */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 30px;
+}
+
+.subtitle {
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: normal;
+    margin: 5px 0;
+}
+
+.hero span {
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+.date {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+
+/* =================================
+   ANIMATION
+================================= */
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+    .opening-subtitle {
+        font-size: 12px;
+        letter-spacing: 3px;
+    }
+
+    .opening-name {
+        font-size: 42px;
+    }
+
+    .opening-and {
+        font-size: 28px;
+    }
+
+    .opening-date {
+        font-size: 15px;
+    }
+
+    .open-button {
+        padding: 12px 24px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+}
