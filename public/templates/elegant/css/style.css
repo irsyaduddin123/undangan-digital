@@ -1,268 +1,1040 @@
+/* ==========================================
+   RESET
+========================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
 
+
 body {
-    font-family: Georgia, 'Times New Roman', serif;
+    margin: 0;
+
+    font-family:
+        Georgia,
+        'Times New Roman',
+        serif;
+
     background: #f8f5f0;
-    color: #333;
+
+    color: #3b3630;
+
     overflow: hidden;
 }
 
 
-/* =================================
+
+/* ==========================================
    OPENING SCREEN
-================================= */
+========================================== */
 
 .opening-screen {
+
     position: fixed;
+
     inset: 0;
+
     z-index: 9999;
 
+    width: 100%;
+    height: 100vh;
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     text-align: center;
 
-    background:
-        linear-gradient(
-            rgba(30, 25, 20, 0.55),
-            rgba(30, 25, 20, 0.65)
-        ),
-        url('../images/cover.jpg') center center / cover no-repeat;
+    background-color: #d8d0c5;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 
     transition:
-        opacity 0.8s ease,
-        visibility 0.8s ease,
-        transform 0.8s ease;
+        opacity 1s ease,
+        visibility 1s ease,
+        transform 1s ease;
+
 }
 
 
-/* Overlay */
-
-.opening-overlay {
-    position: absolute;
-    inset: 0;
-
-    background: rgba(0, 0, 0, 0.15);
-}
-
-
-/* Content */
+/* ==========================================
+   OPENING CONTENT
+========================================== */
 
 .opening-content {
+
     position: relative;
-    z-index: 2;
 
     width: 90%;
-    max-width: 700px;
 
-    color: #fff;
+    max-width: 650px;
 
-    animation: fadeUp 1.2s ease;
+    padding: 40px 25px;
+
+    color: #ffffff;
+
+    animation: openingFade 1.5s ease;
+
 }
 
 
-/* Subtitle */
+/* ==========================================
+   SMALL TEXT
+========================================== */
 
-.opening-subtitle {
-    font-size: 15px;
+.opening-small-text {
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 12px;
+
     letter-spacing: 5px;
-    margin-bottom: 30px;
+
+    font-weight: 400;
+
+    margin-bottom: 35px;
+
+    text-transform: uppercase;
+
 }
 
 
-/* Names */
+/* ==========================================
+   NAMES
+========================================== */
 
-.opening-name {
-    font-size: clamp(42px, 8vw, 75px);
+.opening-names h1 {
+
+    font-size: clamp(
+        42px,
+        8vw,
+        76px
+    );
+
+    line-height: 1.05;
+
     font-weight: normal;
-    line-height: 1.1;
-    margin: 5px 0;
+
+    letter-spacing: 1px;
+
+    text-shadow:
+        0 2px 15px rgba(0,0,0,0.25);
+
 }
 
 
-/* & */
+.opening-ampersand {
 
-.opening-and {
-    font-size: 35px;
-    margin: 15px 0;
+    font-size: 30px;
+
     font-style: italic;
+
+    margin: 12px 0;
+
 }
 
 
-/* Date */
+/* ==========================================
+   LINE
+========================================== */
+
+.opening-line {
+
+    width: 70px;
+
+    height: 1px;
+
+    margin: 30px auto 20px;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.8
+    );
+
+}
+
+
+/* ==========================================
+   DATE
+========================================== */
 
 .opening-date {
-    margin-top: 30px;
-    font-size: 18px;
-    letter-spacing: 2px;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 14px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
 }
 
 
-/* Button */
+/* ==========================================
+   BUTTON
+========================================== */
 
 .open-button {
-    margin-top: 40px;
+
+    margin-top: 45px;
 
     padding: 14px 28px;
 
-    border: 1px solid rgba(255,255,255,0.7);
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    border: 1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
+
     border-radius: 50px;
 
-    background: rgba(255,255,255,0.12);
-    color: #fff;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
 
-    font-family: inherit;
-    font-size: 15px;
+    color: #ffffff;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
 
     cursor: pointer;
 
+    backdrop-filter: blur(5px);
+
     transition:
-        background 0.3s ease,
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+        all 0.35s ease;
+
 }
 
-.open-button span {
-    margin-right: 8px;
-}
 
 .open-button:hover {
-    background: #fff;
-    color: #333;
 
-    transform: translateY(-3px);
+    background: #ffffff;
+
+    color: #3b3630;
+
+    transform:
+        translateY(-3px);
 
     box-shadow:
-        0 10px 30px rgba(0,0,0,0.2);
+        0 10px 30px
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
 }
 
 
-/* =================================
-   OPENING ANIMATION
-================================= */
+.button-icon {
+
+    font-size: 18px;
+
+    line-height: 1;
+
+}
+
+
+
+/* ==========================================
+   OPENING CLOSED
+========================================== */
 
 .opening-screen.closed {
+
     opacity: 0;
+
     visibility: hidden;
-    transform: scale(1.05);
+
+    transform:
+        scale(1.05);
+
 }
 
 
-/* =================================
+
+/* ==========================================
    MAIN INVITATION
-================================= */
+========================================== */
 
 .invitation-content {
+
     min-height: 100vh;
 
     opacity: 0;
 
-    transition: opacity 1s ease;
+    transform:
+        translateY(20px);
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+
 }
+
 
 .invitation-content.show {
+
     opacity: 1;
+
+    transform:
+        translateY(0);
+
 }
 
 
-/* =================================
-   HERO
-================================= */
 
-.hero {
+/* ==========================================
+   HERO
+========================================== */
+
+.hero-section {
+
     min-height: 100vh;
 
     display: flex;
-    flex-direction: column;
 
     justify-content: center;
+
     align-items: center;
 
     text-align: center;
 
-    padding: 30px;
+    padding: 50px 25px;
+
+    background:
+        #f8f5f0;
+
 }
 
-.subtitle {
-    font-size: 18px;
-    letter-spacing: 3px;
-    margin-bottom: 25px;
+
+.hero-inner {
+
+    width: 100%;
+
+    max-width: 700px;
+
 }
 
-.hero h1 {
-    font-size: 48px;
+
+.hero-label {
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 35px;
+
+    color: #7c746b;
+
+}
+
+
+.hero-inner h1 {
+
+    font-size: clamp(
+        42px,
+        8vw,
+        70px
+    );
+
     font-weight: normal;
-    margin: 5px 0;
-}
 
-.hero span {
-    font-size: 30px;
-    margin: 10px 0;
-}
+    line-height: 1.1;
 
-.date {
-    margin-top: 30px;
-    font-size: 18px;
 }
 
 
-/* =================================
-   ANIMATION
-================================= */
+.hero-ampersand {
 
-@keyframes fadeUp {
+    font-size: 32px;
+
+    font-style: italic;
+
+    margin: 15px 0;
+
+}
+
+
+.hero-divider {
+
+    width: 60px;
+
+    height: 1px;
+
+    margin: 35px auto 20px;
+
+    background: #9a9085;
+
+}
+
+
+.hero-date {
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 13px;
+
+    letter-spacing: 3px;
+
+    color: #7c746b;
+
+}
+
+
+
+/* ==========================================
+   OPENING ANIMATION
+========================================== */
+
+@keyframes openingFade {
 
     from {
+
         opacity: 0;
-        transform: translateY(30px);
+
+        transform:
+            translateY(30px);
+
     }
 
     to {
+
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
+
     }
 
 }
 
 
-/* =================================
+
+/* ==========================================
    MOBILE
-================================= */
+========================================== */
 
 @media (max-width: 768px) {
 
-    .opening-subtitle {
-        font-size: 12px;
-        letter-spacing: 3px;
+    .opening-content {
+
+        padding:
+            30px 20px;
+
     }
 
-    .opening-name {
-        font-size: 42px;
+
+    .opening-small-text {
+
+        font-size: 10px;
+
+        letter-spacing: 4px;
+
+        margin-bottom: 25px;
+
     }
 
-    .opening-and {
-        font-size: 28px;
+
+    .opening-names h1 {
+
+        font-size: 43px;
+
     }
+
+
+    .opening-ampersand {
+
+        font-size: 25px;
+
+    }
+
 
     .opening-date {
-        font-size: 15px;
+
+        font-size: 11px;
+
+        letter-spacing: 2px;
+
     }
+
 
     .open-button {
-        padding: 12px 24px;
+
+        margin-top: 35px;
+
+        padding:
+            13px 23px;
+
     }
 
-    .hero h1 {
-        font-size: 36px;
+
+    .hero-inner h1 {
+
+        font-size: 43px;
+
     }
+
+    /* ==========================================
+    COUNTDOWN
+    ========================================== */
+
+    .countdown-section {
+
+        min-height: 70vh;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        text-align: center;
+
+        padding: 80px 25px;
+
+        background: #eee8df;
+
+    }
+
+
+    .countdown-inner {
+
+        width: 100%;
+
+        max-width: 800px;
+
+    }
+
+
+    .section-label {
+
+        font-family:
+            Arial,
+            sans-serif;
+
+        font-size: 11px;
+
+        letter-spacing: 4px;
+
+        color: #81776d;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .countdown-inner h2 {
+
+        font-size: 38px;
+
+        font-weight: normal;
+
+        color: #3b3630;
+
+    }
+
+
+    .section-divider {
+
+        width: 50px;
+
+        height: 1px;
+
+        background: #9a9085;
+
+        margin: 25px auto 45px;
+
+    }
+
+
+    .countdown {
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        gap: 20px;
+
+    }
+
+
+    .countdown-item {
+
+        width: 130px;
+
+        height: 130px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        align-items: center;
+
+        background: rgba(255,255,255,0.6);
+
+        border: 1px solid
+            rgba(120,110,100,0.25);
+
+    }
+
+
+    .countdown-item span {
+
+        font-size: 38px;
+
+        font-weight: normal;
+
+        color: #3b3630;
+
+    }
+
+
+    .countdown-item small {
+
+        margin-top: 8px;
+
+        font-family:
+            Arial,
+            sans-serif;
+
+        font-size: 10px;
+
+        letter-spacing: 2px;
+
+        text-transform: uppercase;
+
+        color: #81776d;
+
+    }
+
+
+    /* ==========================================
+    COUNTDOWN MOBILE
+    ========================================== */
+
+    @media (max-width: 768px) {
+
+        .countdown-section {
+
+            min-height: 60vh;
+
+            padding: 70px 20px;
+
+        }
+
+
+        .countdown-inner h2 {
+
+            font-size: 30px;
+
+        }
+
+
+        .countdown {
+
+            gap: 8px;
+
+        }
+
+
+        .countdown-item {
+
+            width: 75px;
+
+            height: 85px;
+
+        }
+
+
+        .countdown-item span {
+
+            font-size: 26px;
+
+        }
+
+
+        .countdown-item small {
+
+            font-size: 8px;
+
+            letter-spacing: 1px;
+
+        }
+
+    }
+
+    /* =========================================================
+    QUOTE
+    ========================================================= */
+
+    .quote-section {
+        min-height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 90px 25px;
+        background: #f8f5f0;
+    }
+
+    .quote-inner {
+        width: 100%;
+        max-width: 750px;
+    }
+
+    .quote-mark {
+        display: block;
+        font-family: Georgia, serif;
+        font-size: 80px;
+        line-height: 0.6;
+        color: #9a9085;
+        margin-bottom: 35px;
+    }
+
+    .quote-text {
+        font-size: 22px;
+        line-height: 1.9;
+        font-style: italic;
+        color: #4a443d;
+    }
+
+    .quote-source {
+        margin-top: 30px;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 3px;
+        color: #81776d;
+    }
+
+
+    /* =========================================================
+    EVENT
+    ========================================================= */
+
+    .event-section {
+        padding: 100px 25px;
+        background: #eee8df;
+        text-align: center;
+    }
+
+    .event-inner {
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .event-inner h2 {
+        font-size: 40px;
+        font-weight: normal;
+        color: #3b3630;
+    }
+
+
+    /* EVENT GRID */
+
+    .event-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .event-card {
+        padding: 45px 35px;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(120, 110, 100, 0.2);
+    }
+
+    .event-icon {
+        width: 45px;
+        height: 45px;
+        margin: 0 auto 25px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid #9a9085;
+        border-radius: 50%;
+
+        color: #81776d;
+        font-size: 20px;
+    }
+
+    .event-card h3 {
+        font-size: 27px;
+        font-weight: normal;
+        margin-bottom: 25px;
+        color: #3b3630;
+    }
+
+    .event-date {
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        letter-spacing: 1px;
+        color: #5f584f;
+    }
+
+    .event-time {
+        margin-top: 10px;
+
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        letter-spacing: 2px;
+        color: #81776d;
+    }
+
+    .event-line {
+        width: 45px;
+        height: 1px;
+        background: #9a9085;
+        margin: 25px auto;
+    }
+
+    .event-location {
+        font-size: 17px;
+        font-weight: bold;
+        color: #4a443d;
+    }
+
+    .event-address {
+        margin-top: 10px;
+
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        line-height: 1.7;
+        color: #81776d;
+    }
+
+
+    /* GOOGLE MAP BUTTON */
+
+    .map-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        margin-top: 45px;
+        padding: 14px 28px;
+
+        border: 1px solid #81776d;
+
+        color: #4a443d;
+        text-decoration: none;
+
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+
+        transition: all 0.3s ease;
+    }
+
+    .map-button:hover {
+        background: #3b3630;
+        border-color: #3b3630;
+        color: #fff;
+    }
+
+    .map-button span {
+        font-size: 18px;
+    }
+
+
+
+/* =========================================================
+   MAPS
+========================================================= */
+
+.map-section {
+    padding: 100px 25px;
+    background: #f8f5f0;
+    text-align: center;
+}
+
+.map-inner {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.map-inner h2 {
+    font-size: 40px;
+    font-weight: normal;
+    color: #3b3630;
+}
+
+.map-card {
+    margin-top: 45px;
+    background: #fff;
+    border: 1px solid rgba(120, 110, 100, 0.18);
+    box-shadow: 0 15px 40px rgba(60, 50, 40, 0.08);
+    overflow: hidden;
+}
+
+.map-frame {
+    width: 100%;
+    height: 450px;
+    background: #e5e0d9;
+}
+
+.map-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.map-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 30px 35px;
+    text-align: left;
+    border-bottom: 1px solid rgba(120, 110, 100, 0.15);
+}
+
+.map-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #9a9085;
+    border-radius: 50%;
+    color: #81776d;
+    font-size: 20px;
+}
+
+.map-text h3 {
+    margin: 0 0 8px;
+    font-size: 21px;
+    font-weight: normal;
+    color: #3b3630;
+}
+
+.map-text p {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #81776d;
+}
+
+.map-open-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 25px auto 30px;
+    padding: 13px 25px;
+    border: 1px solid #81776d;
+    color: #4a443d;
+    background: transparent;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.map-open-button:hover {
+    background: #3b3630;
+    border-color: #3b3630;
+    color: #fff;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .map-section {
+        padding: 75px 20px;
+    }
+
+    .map-inner h2 {
+        font-size: 30px;
+    }
+
+    .map-card {
+        margin-top: 35px;
+    }
+
+    .map-frame {
+        height: 300px;
+    }
+
+    .map-info {
+        align-items: flex-start;
+        padding: 25px 20px;
+    }
+
+    .map-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 17px;
+    }
+
+    .map-text h3 {
+        font-size: 18px;
+    }
+
+    .map-text p {
+        font-size: 12px;
+    }
+
+}
+
 
 }

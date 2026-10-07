@@ -2,8 +2,11 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>
         {{ $invitation->groom_name }}
@@ -13,82 +16,495 @@
 
     <link rel="stylesheet"
           href="{{ asset('templates/elegant/css/style.css') }}">
+
 </head>
+
 
 <body>
 
-    {{-- =========================
-        COVER / OPENING
-    ========================== --}}
-    <section class="opening-screen" id="openingScreen">
 
-        <div class="opening-overlay"></div>
+    {{-- ==========================================
+        COVER / OPENING
+    =========================================== --}}
+
+    <section
+        class="opening-screen"
+        id="openingScreen"
+
+        @if($invitation->cover_image)
+
+            style="
+                background-image:
+                    linear-gradient(
+                        rgba(20, 18, 15, 0.45),
+                        rgba(20, 18, 15, 0.70)
+                    ),
+                    url('{{ asset('storage/' . $invitation->cover_image) }}');
+            "
+
+        @endif
+    >
 
         <div class="opening-content">
 
-            <p class="opening-subtitle">
+            <p class="opening-small-text">
                 THE WEDDING OF
             </p>
 
-            <h1 class="opening-name">
-                {{ $invitation->groom_name }}
-            </h1>
 
-            <div class="opening-and">
-                &
+            <div class="opening-names">
+
+                <h1>
+                    {{ $invitation->groom_name }}
+                </h1>
+
+                <div class="opening-ampersand">
+                    &
+                </div>
+
+                <h1>
+                    {{ $invitation->bride_name }}
+                </h1>
+
             </div>
 
-            <h1 class="opening-name">
-                {{ $invitation->bride_name }}
-            </h1>
+
+            <div class="opening-line"></div>
+
 
             <p class="opening-date">
+
                 {{ $invitation->wedding_date?->translatedFormat('d F Y') }}
+
             </p>
+
 
             <button
                 type="button"
-                class="open-button"
-                id="openInvitation">
+                id="openInvitation"
+                class="open-button">
 
-                <span>✉</span>
-                Buka Undangan
+                <span class="button-icon">
+                    ♡
+                </span>
+
+                <span>
+                    Buka Undangan
+                </span>
 
             </button>
 
         </div>
 
     </section>
+        {{-- ==========================================
+            BACKGROUND MUSIC
+        =========================================== --}}
+
+        @if($invitation->music)
+
+            <audio
+                id="bgMusic"
+                loop
+                preload="auto"
+            >
+                <source
+                    src="{{ asset('storage/' . $invitation->music) }}"
+                    type="audio/mpeg"
+                >
+
+                Browser Anda tidak mendukung audio.
+            </audio>
+
+        @endif
 
 
-    {{-- =========================
+    {{-- ==========================================
         MAIN INVITATION
-    ========================== --}}
-    <main class="invitation-content" id="invitationContent">
+    =========================================== --}}
 
-        <section class="hero">
+    <main
+        id="invitationContent"
+        class="invitation-content">
 
-            <p class="subtitle">
-                The Wedding Of
-            </p>
 
-            <h1>
-                {{ $invitation->groom_name }}
-            </h1>
+        {{-- HERO --}}
 
-            <span>&</span>
+        <section class="hero-section">
 
-            <h1>
-                {{ $invitation->bride_name }}
-            </h1>
+            <div class="hero-inner">
 
-            <p class="date">
-                {{ $invitation->wedding_date?->translatedFormat('d F Y') }}
-            </p>
+                <p class="hero-label">
+                    THE WEDDING OF
+                </p>
+
+
+                <h1>
+                    {{ $invitation->groom_name }}
+                </h1>
+
+
+                <div class="hero-ampersand">
+                    &
+                </div>
+
+
+                <h1>
+                    {{ $invitation->bride_name }}
+                </h1>
+
+
+                <div class="hero-divider"></div>
+
+
+                <p class="hero-date">
+
+                    {{ $invitation->wedding_date?->translatedFormat('d F Y') }}
+
+                </p>
+
+            </div>
 
         </section>
 
+        {{-- ==========================================
+            COUNTDOWN
+        =========================================== --}}
+
+        <section class="countdown-section">
+
+            <div class="countdown-inner">
+
+                <p class="section-label">
+                    COUNTING DOWN TO OUR SPECIAL DAY
+                </p>
+
+                <h2>
+                    Menuju Hari Bahagia
+                </h2>
+
+                <div class="section-divider"></div>
+
+
+                <div
+                    class="countdown"
+                    id="countdown"
+                    data-date="{{ $invitation->wedding_date?->format('Y-m-d') }}"
+                >
+
+                    <div class="countdown-item">
+
+                        <span id="days">
+                            00
+                        </span>
+
+                        <small>
+                            Hari
+                        </small>
+
+                    </div>
+
+
+                    <div class="countdown-item">
+
+                        <span id="hours">
+                            00
+                        </span>
+
+                        <small>
+                            Jam
+                        </small>
+
+                    </div>
+
+
+                    <div class="countdown-item">
+
+                        <span id="minutes">
+                            00
+                        </span>
+
+                        <small>
+                            Menit
+                        </small>
+
+                    </div>
+
+
+                    <div class="countdown-item">
+
+                        <span id="seconds">
+                            00
+                        </span>
+
+                        <small>
+                            Detik
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        {{-- QUOTE / AYAT --}}
+        <section class="quote-section">
+
+            <div class="quote-inner">
+
+                <span class="quote-mark">“</span>
+
+                <p class="quote-text">
+                    Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
+                    untukmu pasangan hidup dari jenismu sendiri, supaya kamu
+                    merasa tenteram kepadanya dan dijadikan-Nya di antaramu
+                    rasa kasih dan sayang.
+                </p>
+
+                <p class="quote-source">
+                    QS. Ar-Rum: 21
+                </p>
+
+            </div>
+
+        </section>
+
+
+        {{-- DETAIL ACARA --}}
+        <section class="event-section">
+
+            <div class="event-inner">
+
+                <p class="section-label">
+                    SAVE THE DATE
+                </p>
+
+                <h2>
+                    Akad & Resepsi
+                </h2>
+
+                <div class="section-divider"></div>
+
+
+                <div class="event-grid">
+
+                    {{-- AKAD --}}
+                    <article class="event-card">
+
+                        <div class="event-icon">
+                            ♡
+                        </div>
+
+                        <h3>
+                            Akad Nikah
+                        </h3>
+
+                        @if($invitation->akad_date)
+
+                            <p class="event-date">
+                                {{ $invitation->akad_date->translatedFormat('l, d F Y') }}
+                            </p>
+
+                            <p class="event-time">
+                                {{ $invitation->akad_date->format('H:i') }} WIB
+                            </p>
+
+                        @endif
+
+                        <div class="event-line"></div>
+
+                        <p class="event-location">
+                            {{ $invitation->location_name }}
+                        </p>
+
+                        @if($invitation->address)
+                            <p class="event-address">
+                                {{ $invitation->address }}
+                            </p>
+                        @endif
+
+                    </article>
+
+
+                    {{-- RESEPSI --}}
+                    <article class="event-card">
+
+                        <div class="event-icon">
+                            ♡
+                        </div>
+
+                        <h3>
+                            Resepsi
+                        </h3>
+
+                        @if($invitation->reception_date)
+
+                            <p class="event-date">
+                                {{ $invitation->reception_date->translatedFormat('l, d F Y') }}
+                            </p>
+
+                            <p class="event-time">
+                                {{ $invitation->reception_date->format('H:i') }} WIB
+                            </p>
+
+                        @endif
+
+                        <div class="event-line"></div>
+
+                        <p class="event-location">
+                            {{ $invitation->location_name }}
+                        </p>
+
+                        @if($invitation->address)
+                            <p class="event-address">
+                                {{ $invitation->address }}
+                            </p>
+                        @endif
+
+                    </article>
+
+                </div>
+
+
+                {{-- GOOGLE MAPS
+                @if($invitation->google_maps)
+
+                    <a
+                        href="{{ $invitation->google_maps }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="map-button"
+                    >
+                        <span>⌖</span>
+                        Lihat Lokasi
+                    </a>
+
+                @endif --}}
+
+            </div>
+
+        </section>
+
+        {{-- MAPS --}}
+<section class="map-section">
+
+    <div class="map-inner">
+
+        <p class="section-label">
+            OUR LOCATION
+        </p>
+
+        <h2>
+            Lokasi Acara
+        </h2>
+
+        <div class="section-divider"></div>
+
+
+        @php
+
+            $mapQuery = $invitation->location_name;
+
+            if ($invitation->address) {
+                $mapQuery .= ', ' . $invitation->address;
+            }
+
+            $mapEmbedUrl =
+                'https://www.google.com/maps?q=' .
+                urlencode($mapQuery) .
+                '&output=embed';
+
+        @endphp
+
+
+        <div class="map-card">
+
+            {{-- MAP --}}
+            <div class="map-frame">
+
+                @if($invitation->location_name)
+
+                    <iframe
+                        src="{{ $mapEmbedUrl }}"
+                        width="100%"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+
+                @else
+
+                    <div class="map-placeholder">
+
+                        <div class="map-placeholder-icon">
+                            ⌖
+                        </div>
+
+                        <p>
+                            Lokasi belum tersedia
+                        </p>
+
+                    </div>
+
+                @endif
+
+            </div>
+
+
+            {{-- LOCATION INFO --}}
+            <div class="map-info">
+
+                <div class="map-icon">
+                    ⌖
+                </div>
+
+                <div class="map-text">
+
+                    <h3>
+                        {{ $invitation->location_name }}
+                    </h3>
+
+                    @if($invitation->address)
+
+                        <p>
+                            {{ $invitation->address }}
+                        </p>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+
+            {{-- GOOGLE MAPS BUTTON --}}
+            @if($invitation->google_maps)
+
+                <a
+                    href="{{ $invitation->google_maps }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="map-open-button"
+                >
+                    <span>⌖</span>
+                    Buka Google Maps
+                </a>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</section>
+
+
     </main>
+
 
 
     <script src="{{ asset('templates/elegant/js/script.js') }}"></script>

@@ -4,407 +4,525 @@
 
 @section('content')
 
-<div class="container-fluid py-4">
+<div class="container-fluid">
 
-    {{-- Header --}}
-    <div class="mb-4">
+    <div class="card border-0 shadow-sm">
 
-        <a href="{{ route('admin.invitations.index') }}"
-           class="text-decoration-none">
+        <div class="card-header bg-white py-3">
 
-            <i class="bi bi-arrow-left me-1"></i>
-            Kembali
+            <h5 class="mb-0">
 
-        </a>
+                <i class="bi bi-pencil-square me-2"></i>
 
-        <h4 class="fw-bold mt-3 mb-1">
-            Edit Undangan
-        </h4>
+                Edit Undangan
 
-        <p class="text-muted mb-0">
-            Perbarui data undangan digital.
-        </p>
+            </h5>
 
-    </div>
+        </div>
 
 
-    <form action="{{ route('admin.invitations.update', $invitation) }}"
-          method="POST"
-          enctype="multipart/form-data">
+        <form
+            action="{{ route('admin.invitations.update', $invitation) }}"
+            method="POST"
+            enctype="multipart/form-data"
+        >
 
-        @csrf
-        @method('PUT')
+            @csrf
 
-
-        <div class="row">
-
-            {{-- ================================================= --}}
-            {{-- LEFT --}}
-            {{-- ================================================= --}}
-
-            <div class="col-lg-8">
+            @method('PUT')
 
 
-                {{-- DATA PENGANTIN --}}
-                <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
 
-                    <div class="card-header bg-white py-3">
+                {{-- ERROR --}}
+                @if($errors->any())
 
-                        <h6 class="fw-bold mb-0">
+                    <div class="alert alert-danger">
 
-                            <i class="bi bi-heart me-2"></i>
+                        <strong>
+                            Terdapat kesalahan:
+                        </strong>
 
-                            Data Pengantin
+                        <ul class="mb-0 mt-2">
 
-                        </h6>
+                            @foreach($errors->all() as $error)
+
+                                <li>
+                                    {{ $error }}
+                                </li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                @endif
+
+
+                {{-- CUSTOMER & TEMPLATE --}}
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Customer
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <select
+                            name="user_id"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                -- Pilih Customer --
+                            </option>
+
+                            @foreach($customers as $customer)
+
+                                <option
+                                    value="{{ $customer->id }}"
+                                    {{ old('user_id', $invitation->user_id) == $customer->id ? 'selected' : '' }}
+                                >
+                                    {{ $customer->name }}
+                                    -
+                                    {{ $customer->email }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
 
                     </div>
 
 
-                    <div class="card-body">
+                    <div class="col-md-6 mb-3">
 
-                        <div class="row">
+                        <label class="form-label">
+                            Template
+                            <span class="text-danger">*</span>
+                        </label>
 
+                        <select
+                            name="template_id"
+                            class="form-select"
+                            required
+                        >
 
-                            {{-- Groom --}}
-                            <div class="col-md-6 mb-3">
+                            <option value="">
+                                -- Pilih Template --
+                            </option>
 
-                                <label class="form-label">
-                                    Nama Mempelai Pria
-                                    <span class="text-danger">*</span>
-                                </label>
+                            @foreach($templates as $template)
 
-                                <input type="text"
-                                       name="groom_name"
-                                       value="{{ old(
-                                           'groom_name',
-                                           $invitation->groom_name
-                                       ) }}"
-                                       class="form-control @error('groom_name') is-invalid @enderror">
+                                <option
+                                    value="{{ $template->id }}"
+                                    {{ old('template_id', $invitation->template_id) == $template->id ? 'selected' : '' }}
+                                >
+                                    {{ $template->name }}
+                                </option>
 
-                                @error('groom_name')
+                            @endforeach
 
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-
-                                @enderror
-
-                            </div>
-
-
-                            {{-- Bride --}}
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Nama Mempelai Wanita
-                                    <span class="text-danger">*</span>
-                                </label>
-
-                                <input type="text"
-                                       name="bride_name"
-                                       value="{{ old(
-                                           'bride_name',
-                                           $invitation->bride_name
-                                       ) }}"
-                                       class="form-control @error('bride_name') is-invalid @enderror">
-
-                                @error('bride_name')
-
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-
-                                @enderror
-
-                            </div>
-
-
-                            {{-- Slug --}}
-                            <div class="col-12 mb-3">
-
-                                <label class="form-label">
-                                    Slug Undangan
-                                </label>
-
-                                <div class="input-group">
-
-                                    <span class="input-group-text">
-                                        /undangan/
-                                    </span>
-
-                                    <input type="text"
-                                           name="slug"
-                                           id="slug"
-                                           value="{{ old(
-                                               'slug',
-                                               $invitation->slug
-                                           ) }}"
-                                           class="form-control @error('slug') is-invalid @enderror">
-
-                                </div>
-
-                                @error('slug')
-
-                                    <div class="text-danger small">
-                                        {{ $message }}
-                                    </div>
-
-                                @enderror
-
-                            </div>
-
-                        </div>
+                        </select>
 
                     </div>
 
                 </div>
 
 
-                {{-- WAKTU --}}
-                <div class="card border-0 shadow-sm mb-4">
+                {{-- NAMA MEMPELAI --}}
+                <div class="row">
 
-                    <div class="card-header bg-white py-3">
+                    <div class="col-md-6 mb-3">
 
-                        <h6 class="fw-bold mb-0">
+                        <label class="form-label">
+                            Nama Mempelai Pria
+                            <span class="text-danger">*</span>
+                        </label>
 
-                            <i class="bi bi-calendar-heart me-2"></i>
-
-                            Waktu Pernikahan
-
-                        </h6>
+                        <input
+                            type="text"
+                            name="groom_name"
+                            class="form-control"
+                            value="{{ old('groom_name', $invitation->groom_name) }}"
+                            required
+                        >
 
                     </div>
 
 
-                    <div class="card-body">
+                    <div class="col-md-6 mb-3">
 
-                        <div class="row">
+                        <label class="form-label">
+                            Nama Mempelai Wanita
+                            <span class="text-danger">*</span>
+                        </label>
 
-
-                            {{-- Wedding --}}
-                            <div class="col-md-4 mb-3">
-
-                                <label class="form-label">
-                                    Tanggal Pernikahan
-                                    <span class="text-danger">*</span>
-                                </label>
-
-                                <input type="date"
-                                       name="wedding_date"
-                                       value="{{ old(
-                                           'wedding_date',
-                                           optional($invitation->wedding_date)
-                                               ->format('Y-m-d')
-                                       ) }}"
-                                       class="form-control">
-
-                            </div>
-
-
-                            {{-- Akad --}}
-                            <div class="col-md-4 mb-3">
-
-                                <label class="form-label">
-                                    Akad Nikah
-                                </label>
-
-                                <input type="datetime-local"
-                                       name="akad_date"
-                                       value="{{ old(
-                                           'akad_date',
-                                           optional($invitation->akad_date)
-                                               ->format('Y-m-d\TH:i')
-                                       ) }}"
-                                       class="form-control">
-
-                            </div>
-
-
-                            {{-- Reception --}}
-                            <div class="col-md-4 mb-3">
-
-                                <label class="form-label">
-                                    Resepsi
-                                </label>
-
-                                <input type="datetime-local"
-                                       name="reception_date"
-                                       value="{{ old(
-                                           'reception_date',
-                                           optional($invitation->reception_date)
-                                               ->format('Y-m-d\TH:i')
-                                       ) }}"
-                                       class="form-control">
-
-                            </div>
-
-                        </div>
+                        <input
+                            type="text"
+                            name="bride_name"
+                            class="form-control"
+                            value="{{ old('bride_name', $invitation->bride_name) }}"
+                            required
+                        >
 
                     </div>
 
                 </div>
 
 
-                {{-- LOKASI --}}
-                <div class="card border-0 shadow-sm mb-4">
+                {{-- SLUG --}}
+                <div class="mb-3">
 
-                    <div class="card-header bg-white py-3">
+                    <label class="form-label">
+                        Slug Undangan
+                    </label>
 
-                        <h6 class="fw-bold mb-0">
+                    <input
+                        type="text"
+                        name="slug"
+                        id="slug"
+                        class="form-control"
+                        value="{{ old('slug', $invitation->slug) }}"
+                    >
 
-                            <i class="bi bi-geo-alt me-2"></i>
+                </div>
 
-                            Lokasi Pernikahan
 
-                        </h6>
+                {{-- TANGGAL --}}
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Tanggal Pernikahan
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            name="wedding_date"
+                            class="form-control"
+                            value="{{ old(
+                                'wedding_date',
+                                $invitation->wedding_date?->format('Y-m-d')
+                            ) }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Akad Nikah
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="akad_date"
+                            class="form-control"
+                            value="{{ old(
+                                'akad_date',
+                                $invitation->akad_date?->format('Y-m-d\TH:i')
+                            ) }}"
+                        >
 
                     </div>
 
 
-                    <div class="card-body">
+                    <div class="col-md-4 mb-3">
 
+                        <label class="form-label">
+                            Resepsi
+                        </label>
 
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Nama Lokasi
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <input type="text"
-                                   name="location_name"
-                                   value="{{ old(
-                                       'location_name',
-                                       $invitation->location_name
-                                   ) }}"
-                                   class="form-control">
-
-                        </div>
-
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Alamat
-                            </label>
-
-                            <textarea name="address"
-                                      rows="3"
-                                      class="form-control">{{ old(
-                                          'address',
-                                          $invitation->address
-                                      ) }}</textarea>
-
-                        </div>
-
-
-                        <div>
-
-                            <label class="form-label">
-                                Google Maps
-                            </label>
-
-                            <input type="text"
-                                   name="google_maps"
-                                   value="{{ old(
-                                       'google_maps',
-                                       $invitation->google_maps
-                                   ) }}"
-                                   class="form-control">
-
-                        </div>
+                        <input
+                            type="datetime-local"
+                            name="reception_date"
+                            class="form-control"
+                            value="{{ old(
+                                'reception_date',
+                                $invitation->reception_date?->format('Y-m-d\TH:i')
+                            ) }}"
+                        >
 
                     </div>
+
+                </div>
+
+
+                {{-- =====================================================
+                     LOKASI
+                ====================================================== --}}
+
+                <hr class="my-4">
+
+                <h5 class="mb-3">
+
+                    <i class="bi bi-geo-alt me-2"></i>
+
+                    Lokasi Acara
+
+                </h5>
+
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Nama Lokasi
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="location_name"
+                            id="location_name"
+                            class="form-control"
+                            value="{{ old(
+                                'location_name',
+                                $invitation->location_name
+                            ) }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Alamat Lengkap
+                        </label>
+
+                        <textarea
+                            name="address"
+                            id="address"
+                            class="form-control"
+                            rows="2"
+                        >{{ old(
+                            'address',
+                            $invitation->address
+                        ) }}</textarea>
+
+                    </div>
+
+                </div>
+
+
+                {{-- GOOGLE MAPS --}}
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Link Google Maps
+                    </label>
+
+                    <input
+                        type="url"
+                        name="google_maps"
+                        id="google_maps"
+                        class="form-control"
+                        value="{{ old(
+                            'google_maps',
+                            $invitation->google_maps
+                        ) }}"
+                        placeholder="https://maps.google.com/..."
+                    >
+
+                    <div class="form-text">
+
+                        Buka Google Maps → pilih lokasi →
+                        <strong>Bagikan</strong> →
+                        <strong>Salin link</strong>.
+
+                    </div>
+
+                </div>
+
+
+                {{-- MAP PREVIEW --}}
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Preview Lokasi
+                    </label>
+
+                    <div
+                        id="mapPreview"
+                        class="map-preview"
+                    ></div>
 
                 </div>
 
 
                 {{-- MEDIA --}}
-                <div class="card border-0 shadow-sm mb-4">
+                <hr class="my-4">
 
-                    <div class="card-header bg-white py-3">
+                <h5 class="mb-3">
 
-                        <h6 class="fw-bold mb-0">
+                    <i class="bi bi-image me-2"></i>
 
-                            <i class="bi bi-images me-2"></i>
+                    Media Undangan
 
-                            Media
-
-                        </h6>
-
-                    </div>
+                </h5>
 
 
-                    <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Cover Image
+                        </label>
+
+                        <input
+                            type="file"
+                            name="cover_image"
+                            id="cover_image"
+                            class="form-control"
+                            accept=".jpg,.jpeg,.png,.webp"
+                        >
 
 
-                        {{-- Cover --}}
-                        <div class="mb-4">
+                        @if($invitation->cover_image)
 
-                            <label class="form-label">
-                                Cover Undangan
-                            </label>
+                            <div class="mt-3">
 
-                            @if($invitation->cover_image)
+                                <p class="text-muted mb-2">
+                                    Cover saat ini:
+                                </p>
 
-                                <div class="mb-3">
-
-                                    <img src="{{ asset(
+                                <img
+                                    src="{{ asset(
                                         'storage/' .
                                         $invitation->cover_image
                                     ) }}"
-                                         class="img-fluid rounded"
-                                         style="max-height:250px;">
+                                    class="img-fluid rounded"
+                                    style="max-height:250px;"
+                                >
 
-                                </div>
+                            </div>
 
-                            @endif
+                        @endif
 
 
-                            <input type="file"
-                                   name="cover_image"
-                                   accept="image/*"
-                                   class="form-control">
+                        <div class="mt-3">
 
-                            <small class="text-muted">
-                                Kosongkan jika tidak ingin mengganti cover.
-                            </small>
+                            <img
+                                id="coverPreview"
+                                src=""
+                                class="img-fluid rounded d-none"
+                                style="max-height:250px;"
+                            >
 
                         </div>
 
+                    </div>
 
-                        {{-- Music --}}
-                        <div>
 
-                            <label class="form-label">
-                                Musik
-                            </label>
+                    <div class="col-md-6 mb-3">
 
-                            @if($invitation->music)
+                        <label class="form-label">
+                            Musik
+                        </label>
 
-                                <audio controls class="d-block mb-3">
+                        <input
+                            type="file"
+                            name="music"
+                            class="form-control"
+                            accept=".mp3,.wav,.ogg"
+                        >
 
-                                    <source src="{{ asset(
-                                        'storage/' .
-                                        $invitation->music
-                                    ) }}">
+
+                        @if($invitation->music)
+
+                            <div class="mt-3">
+
+                                <audio
+                                    controls
+                                    class="w-100"
+                                >
+
+                                    <source
+                                        src="{{ asset(
+                                            'storage/' .
+                                            $invitation->music
+                                        ) }}"
+                                    >
 
                                 </audio>
 
-                            @endif
+                            </div>
+
+                        @endif
+
+                    </div>
+
+                </div>
 
 
-                            <input type="file"
-                                   name="music"
-                                   accept=".mp3,.wav,.ogg"
-                                   class="form-control">
+                {{-- STATUS --}}
+                <div class="row">
 
-                            <small class="text-muted">
-                                Kosongkan jika tidak ingin mengganti musik.
-                            </small>
+                    <div class="col-md-6 mb-3">
 
-                        </div>
+                        <label class="form-label">
+                            Status
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select"
+                            required
+                        >
+
+                            <option
+                                value="active"
+                                {{ old(
+                                    'status',
+                                    $invitation->status
+                                ) == 'active' ? 'selected' : '' }}
+                            >
+                                Active
+                            </option>
+
+                            <option
+                                value="inactive"
+                                {{ old(
+                                    'status',
+                                    $invitation->status
+                                ) == 'inactive' ? 'selected' : '' }}
+                            >
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Expired
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="expired_at"
+                            class="form-control"
+                            value="{{ old(
+                                'expired_at',
+                                $invitation->expired_at?->format('Y-m-d\TH:i')
+                            ) }}"
+                        >
 
                     </div>
 
@@ -413,215 +531,368 @@
             </div>
 
 
-            {{-- ================================================= --}}
-            {{-- RIGHT --}}
-            {{-- ================================================= --}}
-
-            <div class="col-lg-4">
-
-
-                {{-- CUSTOMER --}}
-                <div class="card border-0 shadow-sm mb-4">
-
-                    <div class="card-header bg-white py-3">
-
-                        <h6 class="fw-bold mb-0">
-
-                            <i class="bi bi-person me-2"></i>
-
-                            Customer
-
-                        </h6>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <label class="form-label">
-                            Pemilik Undangan
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <select name="user_id"
-                                class="form-select">
-
-                            @foreach($customers as $customer)
-
-                                <option value="{{ $customer->id }}"
-                                    {{ old(
-                                        'user_id',
-                                        $invitation->user_id
-                                    ) == $customer->id
-                                        ? 'selected'
-                                        : '' }}>
-
-                                    {{ $customer->name }}
-                                    -
-                                    {{ $customer->email }}
-
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                {{-- TEMPLATE --}}
-                <div class="card border-0 shadow-sm mb-4">
-
-                    <div class="card-header bg-white py-3">
-
-                        <h6 class="fw-bold mb-0">
-
-                            <i class="bi bi-palette me-2"></i>
-
-                            Template
-
-                        </h6>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <label class="form-label">
-                            Template
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <select name="template_id"
-                                class="form-select">
-
-                            @foreach($templates as $template)
-
-                                <option value="{{ $template->id }}"
-                                    {{ old(
-                                        'template_id',
-                                        $invitation->template_id
-                                    ) == $template->id
-                                        ? 'selected'
-                                        : '' }}>
-
-                                    {{ $template->name }}
-
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                {{-- PENGATURAN --}}
-                <div class="card border-0 shadow-sm mb-4">
-
-                    <div class="card-header bg-white py-3">
-
-                        <h6 class="fw-bold mb-0">
-
-                            <i class="bi bi-gear me-2"></i>
-
-                            Pengaturan
-
-                        </h6>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Status
-                            </label>
-
-                            <select name="status"
-                                    class="form-select">
-
-                                <option value="active"
-                                    {{ old(
-                                        'status',
-                                        $invitation->status
-                                    ) === 'active'
-                                        ? 'selected'
-                                        : '' }}>
-
-                                    Aktif
-
-                                </option>
-
-                                <option value="inactive"
-                                    {{ old(
-                                        'status',
-                                        $invitation->status
-                                    ) === 'inactive'
-                                        ? 'selected'
-                                        : '' }}>
-
-                                    Nonaktif
-
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div>
-
-                            <label class="form-label">
-                                Expired
-                            </label>
-
-                            <input type="datetime-local"
-                                   name="expired_at"
-                                   value="{{ old(
-                                       'expired_at',
-                                       optional($invitation->expired_at)
-                                           ->format('Y-m-d\TH:i')
-                                   ) }}"
-                                   class="form-control">
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {{-- SAVE --}}
-                <div class="card border-0 shadow-sm">
-
-                    <div class="card-body">
-
-                        <button type="submit"
-                                class="btn btn-primary w-100">
-
-                            <i class="bi bi-check-lg me-1"></i>
-
-                            Simpan Perubahan
-
-                        </button>
-
-                    </div>
-
-                </div>
+            <div class="card-footer bg-white d-flex justify-content-end gap-2">
+
+                <a
+                    href="{{ route('admin.invitations.index') }}"
+                    class="btn btn-secondary"
+                >
+                    Batal
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    <i class="bi bi-save me-1"></i>
+                    Update Undangan
+                </button>
 
             </div>
 
-        </div>
+        </form>
 
-    </form>
+    </div>
 
 </div>
 
+
+<style>
+
+.map-preview {
+    width: 100%;
+    height: 400px;
+    background: #f1f1f1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.map-preview iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.map-empty {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: #6c757d;
+}
+
+.map-empty i {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+</style>
+
 @endsection
+
+
+@push('scripts')
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+        /*
+    |--------------------------------------------------------------------------
+    | AUTO SLUG
+    |--------------------------------------------------------------------------
+    */
+
+    const groomInput =
+        document.querySelector('[name="groom_name"]');
+
+    const brideInput =
+        document.querySelector('[name="bride_name"]');
+
+    const slugInput =
+        document.getElementById('slug');
+
+    let slugManual = false;
+
+
+    function generateSlug(text) {
+
+        return text
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-');
+
+    }
+
+
+    function updateSlug() {
+
+        // Jika slug sudah diedit manual,
+        // jangan ubah otomatis
+        if (slugManual) {
+            return;
+        }
+
+
+        const groom =
+            groomInput.value.trim();
+
+        const bride =
+            brideInput.value.trim();
+
+
+        if (!groom && !bride) {
+
+            slugInput.value = '';
+
+            return;
+
+        }
+
+
+        const names =
+            [groom, bride]
+                .filter(Boolean)
+                .join(' ');
+
+
+        slugInput.value =
+            generateSlug(names);
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | NAMA MEMPELAI
+    |--------------------------------------------------------------------------
+    */
+
+    groomInput.addEventListener(
+        'input',
+        updateSlug
+    );
+
+    brideInput.addEventListener(
+        'input',
+        updateSlug
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SLUG MANUAL
+    |--------------------------------------------------------------------------
+    */
+
+    slugInput.addEventListener(
+        'input',
+        function () {
+
+            const groom =
+                groomInput.value.trim();
+
+            const bride =
+                brideInput.value.trim();
+
+
+            const automaticSlug =
+                generateSlug(
+                    [groom, bride]
+                        .filter(Boolean)
+                        .join(' ')
+                );
+
+
+            /*
+            | Jika berbeda dari slug otomatis,
+            | berarti user mengubah manual
+            */
+
+            if (
+                slugInput.value !== automaticSlug
+            ) {
+
+                slugManual = true;
+
+            }
+
+
+            /*
+            | Jika dikosongkan,
+            | aktifkan kembali auto slug
+            */
+
+            if (
+                slugInput.value.trim() === ''
+            ) {
+
+                slugManual = false;
+
+                updateSlug();
+
+            }
+
+        }
+    );
+    
+    /*
+    |--------------------------------------------------------------------------
+    | MAP PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    const locationInput =
+        document.getElementById('location_name');
+
+    const addressInput =
+        document.getElementById('address');
+
+    const mapPreview =
+        document.getElementById('mapPreview');
+
+
+    function updateMap() {
+
+        const location =
+            locationInput.value.trim();
+
+        const address =
+            addressInput.value.trim();
+
+
+        if (!location && !address) {
+
+            mapPreview.innerHTML = `
+                <div class="map-empty">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    <p>
+                        Masukkan nama lokasi dan alamat
+                        untuk melihat preview Maps.
+                    </p>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        let query = location;
+
+
+        if (address) {
+
+            query += ', ' + address;
+
+        }
+
+
+        const embedUrl =
+            'https://www.google.com/maps?q=' +
+            encodeURIComponent(query) +
+            '&output=embed';
+
+
+        mapPreview.innerHTML = `
+
+            <iframe
+                src="${embedUrl}"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+
+        `;
+
+    }
+
+
+    locationInput.addEventListener(
+        'input',
+        updateMap
+    );
+
+    addressInput.addEventListener(
+        'input',
+        updateMap
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD EXISTING MAP
+    |--------------------------------------------------------------------------
+    */
+
+    updateMap();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | COVER PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    const coverInput =
+        document.getElementById('cover_image');
+
+    const coverPreview =
+        document.getElementById('coverPreview');
+
+
+    coverInput.addEventListener(
+        'change',
+        function (event) {
+
+            const file =
+                event.target.files[0];
+
+            if (!file) {
+
+                coverPreview.classList.add(
+                    'd-none'
+                );
+
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (e) {
+
+                    coverPreview.src =
+                        e.target.result;
+
+                    coverPreview.classList.remove(
+                        'd-none'
+                    );
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+});
+
+</script>
+
+@endpush

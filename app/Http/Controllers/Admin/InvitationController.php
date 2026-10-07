@@ -12,6 +12,12 @@ use Illuminate\Support\Str;
 
 class InvitationController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | INDEX
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
         $invitations = Invitation::with([
@@ -26,6 +32,13 @@ class InvitationController extends Controller
             compact('invitations')
         );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE
+    |--------------------------------------------------------------------------
+    */
 
     public function create()
     {
@@ -46,35 +59,103 @@ class InvitationController extends Controller
         );
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
+    |--------------------------------------------------------------------------
+    */
+
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'template_id' => 'required|exists:templates,id',
 
-            'groom_name' => 'required|string|max:255',
-            'bride_name' => 'required|string|max:255',
+            'user_id' => [
+                'required',
+                'exists:users,id'
+            ],
 
-            'slug' => 'nullable|string|max:255|unique:invitations,slug',
+            'template_id' => [
+                'required',
+                'exists:templates,id'
+            ],
 
-            'wedding_date' => 'required|date',
+            'groom_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'akad_date' => 'nullable|date',
-            'reception_date' => 'nullable|date',
+            'bride_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'location_name' => 'required|string|max:255',
-            'address' => 'nullable|string',
+            'slug' => [
+                'nullable',
+                'string',
+                'max:255',
+                'unique:invitations,slug'
+            ],
 
-            'google_maps' => 'nullable|string|max:1000',
+            'wedding_date' => [
+                'required',
+                'date'
+            ],
 
-            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'akad_date' => [
+                'nullable',
+                'date'
+            ],
 
-            'music' => 'nullable|mimes:mp3,wav,ogg|max:10240',
+            'reception_date' => [
+                'nullable',
+                'date'
+            ],
 
-            'status' => 'required|in:active,inactive',
+            'location_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'expired_at' => 'nullable|date',
+            'address' => [
+                'nullable',
+                'string'
+            ],
+
+            'google_maps' => [
+                'nullable',
+                'url',
+                'max:1000'
+            ],
+
+            'cover_image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120'
+            ],
+
+            'music' => [
+                'nullable',
+                'mimes:mp3,wav,ogg',
+                'max:10240'
+            ],
+
+            'status' => [
+                'required',
+                'in:active,inactive'
+            ],
+
+            'expired_at' => [
+                'nullable',
+                'date'
+            ],
+
         ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -90,6 +171,7 @@ class InvitationController extends Controller
                 $request->bride_name
             );
 
+
         /*
         |--------------------------------------------------------------------------
         | COVER IMAGE
@@ -99,9 +181,15 @@ class InvitationController extends Controller
         $coverImage = null;
 
         if ($request->hasFile('cover_image')) {
-            $coverImage = $request->file('cover_image')
-                ->store('invitations/covers', 'public');
+
+            $coverImage = $request
+                ->file('cover_image')
+                ->store(
+                    'invitations/covers',
+                    'public'
+                );
         }
+
 
         /*
         |--------------------------------------------------------------------------
@@ -112,42 +200,56 @@ class InvitationController extends Controller
         $music = null;
 
         if ($request->hasFile('music')) {
-            $music = $request->file('music')
-                ->store('invitations/music', 'public');
+
+            $music = $request
+                ->file('music')
+                ->store(
+                    'invitations/music',
+                    'public'
+                );
         }
+
 
         /*
         |--------------------------------------------------------------------------
-        | CREATE
+        | CREATE INVITATION
         |--------------------------------------------------------------------------
         */
 
         Invitation::create([
+
             'user_id' => $request->user_id,
+
             'template_id' => $request->template_id,
 
             'slug' => $slug,
 
             'groom_name' => $request->groom_name,
+
             'bride_name' => $request->bride_name,
 
             'wedding_date' => $request->wedding_date,
 
             'akad_date' => $request->akad_date,
+
             'reception_date' => $request->reception_date,
 
             'location_name' => $request->location_name,
+
             'address' => $request->address,
 
             'google_maps' => $request->google_maps,
 
             'cover_image' => $coverImage,
+
             'music' => $music,
 
             'status' => $request->status,
 
             'expired_at' => $request->expired_at,
+
         ]);
+
 
         return redirect()
             ->route('admin.invitations.index')
@@ -156,6 +258,13 @@ class InvitationController extends Controller
                 'Undangan berhasil ditambahkan.'
             );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT
+    |--------------------------------------------------------------------------
+    */
 
     public function edit(Invitation $invitation)
     {
@@ -177,37 +286,106 @@ class InvitationController extends Controller
         );
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+
     public function update(
         Request $request,
         Invitation $invitation
     ) {
+
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'template_id' => 'required|exists:templates,id',
 
-            'groom_name' => 'required|string|max:255',
-            'bride_name' => 'required|string|max:255',
+            'user_id' => [
+                'required',
+                'exists:users,id'
+            ],
 
-            'slug' => 'nullable|string|max:255|unique:invitations,slug,' . $invitation->id,
+            'template_id' => [
+                'required',
+                'exists:templates,id'
+            ],
 
-            'wedding_date' => 'required|date',
+            'groom_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'akad_date' => 'nullable|date',
-            'reception_date' => 'nullable|date',
+            'bride_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'location_name' => 'required|string|max:255',
-            'address' => 'nullable|string',
+            'slug' => [
+                'nullable',
+                'string',
+                'max:255',
+                'unique:invitations,slug,' . $invitation->id
+            ],
 
-            'google_maps' => 'nullable|string|max:1000',
+            'wedding_date' => [
+                'required',
+                'date'
+            ],
 
-            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'akad_date' => [
+                'nullable',
+                'date'
+            ],
 
-            'music' => 'nullable|mimes:mp3,wav,ogg|max:10240',
+            'reception_date' => [
+                'nullable',
+                'date'
+            ],
 
-            'status' => 'required|in:active,inactive',
+            'location_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'expired_at' => 'nullable|date',
+            'address' => [
+                'nullable',
+                'string'
+            ],
+
+            'google_maps' => [
+                'nullable',
+                'url',
+                'max:1000'
+            ],
+
+            'cover_image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120'
+            ],
+
+            'music' => [
+                'nullable',
+                'mimes:mp3,wav,ogg',
+                'max:10240'
+            ],
+
+            'status' => [
+                'required',
+                'in:active,inactive'
+            ],
+
+            'expired_at' => [
+                'nullable',
+                'date'
+            ],
+
         ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -223,6 +401,7 @@ class InvitationController extends Controller
                 $request->bride_name
             );
 
+
         /*
         |--------------------------------------------------------------------------
         | COVER IMAGE
@@ -235,18 +414,26 @@ class InvitationController extends Controller
 
             if (
                 $invitation->cover_image &&
-                Storage::disk('public')->exists(
-                    $invitation->cover_image
-                )
+                Storage::disk('public')
+                    ->exists(
+                        $invitation->cover_image
+                    )
             ) {
-                Storage::disk('public')->delete(
-                    $invitation->cover_image
-                );
+
+                Storage::disk('public')
+                    ->delete(
+                        $invitation->cover_image
+                    );
             }
 
-            $coverImage = $request->file('cover_image')
-                ->store('invitations/covers', 'public');
+            $coverImage = $request
+                ->file('cover_image')
+                ->store(
+                    'invitations/covers',
+                    'public'
+                );
         }
+
 
         /*
         |--------------------------------------------------------------------------
@@ -260,18 +447,26 @@ class InvitationController extends Controller
 
             if (
                 $invitation->music &&
-                Storage::disk('public')->exists(
-                    $invitation->music
-                )
+                Storage::disk('public')
+                    ->exists(
+                        $invitation->music
+                    )
             ) {
-                Storage::disk('public')->delete(
-                    $invitation->music
-                );
+
+                Storage::disk('public')
+                    ->delete(
+                        $invitation->music
+                    );
             }
 
-            $music = $request->file('music')
-                ->store('invitations/music', 'public');
+            $music = $request
+                ->file('music')
+                ->store(
+                    'invitations/music',
+                    'public'
+                );
         }
+
 
         /*
         |--------------------------------------------------------------------------
@@ -280,31 +475,39 @@ class InvitationController extends Controller
         */
 
         $invitation->update([
+
             'user_id' => $request->user_id,
+
             'template_id' => $request->template_id,
 
             'slug' => $slug,
 
             'groom_name' => $request->groom_name,
+
             'bride_name' => $request->bride_name,
 
             'wedding_date' => $request->wedding_date,
 
             'akad_date' => $request->akad_date,
+
             'reception_date' => $request->reception_date,
 
             'location_name' => $request->location_name,
+
             'address' => $request->address,
 
             'google_maps' => $request->google_maps,
 
             'cover_image' => $coverImage,
+
             'music' => $music,
 
             'status' => $request->status,
 
             'expired_at' => $request->expired_at,
+
         ]);
+
 
         return redirect()
             ->route('admin.invitations.index')
@@ -314,49 +517,47 @@ class InvitationController extends Controller
             );
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | DESTROY
+    |--------------------------------------------------------------------------
+    */
+
     public function destroy(Invitation $invitation)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | DELETE COVER
-        |--------------------------------------------------------------------------
-        */
-
         if (
             $invitation->cover_image &&
-            Storage::disk('public')->exists(
-                $invitation->cover_image
-            )
+            Storage::disk('public')
+                ->exists(
+                    $invitation->cover_image
+                )
         ) {
-            Storage::disk('public')->delete(
-                $invitation->cover_image
-            );
+
+            Storage::disk('public')
+                ->delete(
+                    $invitation->cover_image
+                );
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | DELETE MUSIC
-        |--------------------------------------------------------------------------
-        */
 
         if (
             $invitation->music &&
-            Storage::disk('public')->exists(
-                $invitation->music
-            )
+            Storage::disk('public')
+                ->exists(
+                    $invitation->music
+                )
         ) {
-            Storage::disk('public')->delete(
-                $invitation->music
-            );
+
+            Storage::disk('public')
+                ->delete(
+                    $invitation->music
+                );
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | DELETE DATABASE
-        |--------------------------------------------------------------------------
-        */
 
         $invitation->delete();
+
 
         return redirect()
             ->route('admin.invitations.index')
