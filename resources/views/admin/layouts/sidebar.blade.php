@@ -71,7 +71,8 @@
             CUSTOMER
         </div>
 
-        <a href="#">
+        <a href="{{ route('admin.customers.index') }}"
+           class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
             <i class="bi bi-people-fill"></i>
             <span>Customer</span>
         </a>

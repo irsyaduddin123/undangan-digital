@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
@@ -27,6 +28,11 @@ Route::middleware(['auth', 'role:admin'])
             DashboardController::class,
             'index'
         ])->name('dashboard');
+
+        //customer
+        Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+
+        Route::get('/customers/{user}', [CustomerController::class, 'show'])->name('customers.show');
 
 
         // Template
