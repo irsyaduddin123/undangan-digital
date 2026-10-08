@@ -255,6 +255,128 @@
 
                 </div>
 
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-heart me-2"></i>
+                            Profil Mempelai
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            {{-- Mempelai Pria --}}
+                            <div class="col-md-6 mb-4">
+
+                                <h6 class="fw-bold mb-3">
+                                    Mempelai Pria
+                                </h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Foto Mempelai Pria
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        name="groom_photo"
+                                        id="groom_photo"
+                                        class="form-control"
+                                        accept="image/*"
+                                    >
+
+                                    @if($invitation->groom_photo)
+                                        <div class="mt-3">
+                                            <img
+                                                src="{{ asset('storage/' . $invitation->groom_photo) }}"
+                                                class="img-fluid rounded"
+                                                style="max-height:250px;"
+                                            >
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Profil Mempelai Pria
+                                    </label>
+
+                                    <textarea
+                                        name="groom_profile"
+                                        class="form-control"
+                                        rows="5"
+                                    >{{ old('groom_profile', $invitation->groom_profile) }}</textarea>
+                                </div>
+
+                            </div>
+
+                            {{-- Mempelai Wanita --}}
+                            <div class="col-md-6 mb-4">
+
+                                <h6 class="fw-bold mb-3">
+                                    Mempelai Wanita
+                                </h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Foto Mempelai Wanita
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        name="bride_photo"
+                                        id="bride_photo"
+                                        class="form-control"
+                                        accept="image/*"
+                                    >
+
+                                @if($invitation->bride_photo)
+                                    <div class="mt-3">
+                                        <img
+                                            src="{{ asset('storage/' . $invitation->bride_photo) }}"
+                                            class="img-fluid rounded"
+                                            style="max-height:250px;"
+                                        >
+                                    </div>
+                                @endif
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Profil Mempelai Wanita
+                                    </label>
+
+                                    <textarea
+                                        name="bride_profile"
+                                        class="form-control"
+                                        rows="5"
+                                    >{{ old('bride_profile', $invitation->bride_profile) }}</textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Love Story
+                            </label>
+
+                            <textarea
+                                name="love_story"
+                                class="form-control"
+                                rows="7"
+                            >{{ old('love_story', $invitation->love_story) }}</textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+
 
                 {{-- =====================================================
                      LOKASI

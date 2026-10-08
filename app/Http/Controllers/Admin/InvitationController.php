@@ -92,6 +92,35 @@ class InvitationController extends Controller
                 'max:255'
             ],
 
+            'groom_photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120'
+            ],
+
+            'bride_photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120'
+            ],
+
+            'groom_profile' => [
+                'nullable',
+                'string'
+            ],
+
+            'bride_profile' => [
+                'nullable',
+                'string'
+            ],
+
+            'love_story' => [
+                'nullable',
+                'string'
+            ],
+
             'slug' => [
                 'nullable',
                 'string',
@@ -209,6 +238,22 @@ class InvitationController extends Controller
                 );
         }
 
+        /*love stroy*/
+
+        $groomPhoto = null;
+
+        if ($request->hasFile('groom_photo')) {
+            $groomPhoto = $request->file('groom_photo')
+                ->store('invitations/couple', 'public');
+        }
+
+        $bridePhoto = null;
+
+        if ($request->hasFile('bride_photo')) {
+            $bridePhoto = $request->file('bride_photo')
+                ->store('invitations/couple', 'public');
+        }
+
 
         /*
         |--------------------------------------------------------------------------
@@ -227,6 +272,16 @@ class InvitationController extends Controller
             'groom_name' => $request->groom_name,
 
             'bride_name' => $request->bride_name,
+
+            'groom_photo' => $groomPhoto,
+
+            'bride_photo' => $bridePhoto,
+
+            'groom_profile' => $request->groom_profile,
+
+            'bride_profile' => $request->bride_profile,
+
+            'love_story' => $request->love_story,
 
             'wedding_date' => $request->wedding_date,
 
@@ -320,6 +375,35 @@ class InvitationController extends Controller
                 'required',
                 'string',
                 'max:255'
+            ],
+
+            'groom_photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120'
+            ],
+
+            'bride_photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:5120'
+            ],
+
+            'groom_profile' => [
+                'nullable',
+                'string'
+            ],
+
+            'bride_profile' => [
+                'nullable',
+                'string'
+            ],
+
+            'love_story' => [
+                'nullable',
+                'string'
             ],
 
             'slug' => [
@@ -467,6 +551,44 @@ class InvitationController extends Controller
                 );
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | GROOM PHOTO
+        |--------------------------------------------------------------------------
+        */
+
+        $groomPhoto = $invitation->groom_photo;
+
+        if ($request->hasFile('groom_photo')) {
+            if (
+                $invitation->groom_photo &&
+                Storage::disk('public')->exists($invitation->groom_photo)
+            ) {
+                Storage::disk('public')->delete(
+                    $invitation->groom_photo
+                );
+            }
+
+            $groomPhoto = $request->file('groom_photo')
+                ->store('invitations/couple', 'public');
+        }
+
+        $bridePhoto = $invitation->bride_photo;
+
+        if ($request->hasFile('bride_photo')) {
+            if (
+                $invitation->bride_photo &&
+                Storage::disk('public')->exists($invitation->bride_photo)
+            ) {
+                Storage::disk('public')->delete(
+                    $invitation->bride_photo
+                );
+            }
+
+            $bridePhoto = $request->file('bride_photo')
+                ->store('invitations/couple', 'public');
+        }
+
 
         /*
         |--------------------------------------------------------------------------
@@ -485,6 +607,16 @@ class InvitationController extends Controller
             'groom_name' => $request->groom_name,
 
             'bride_name' => $request->bride_name,
+
+            'groom_photo' => $groomPhoto,
+            
+            'bride_photo' => $bridePhoto,
+
+            'groom_profile' => $request->groom_profile,
+
+            'bride_profile' => $request->bride_profile,
+
+            'love_story' => $request->love_story,
 
             'wedding_date' => $request->wedding_date,
 
@@ -553,6 +685,24 @@ class InvitationController extends Controller
                 ->delete(
                     $invitation->music
                 );
+        }
+
+        if (
+            $invitation->groom_photo &&
+            Storage::disk('public')->exists($invitation->groom_photo)
+        ) {
+            Storage::disk('public')->delete(
+                $invitation->groom_photo
+            );
+        }
+
+        if (
+            $invitation->bride_photo &&
+            Storage::disk('public')->exists($invitation->bride_photo)
+        ) {
+            Storage::disk('public')->delete(
+                $invitation->bride_photo
+            );
         }
 
 

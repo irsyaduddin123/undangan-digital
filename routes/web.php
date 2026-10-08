@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\ProfileController;
@@ -33,6 +34,22 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 
         Route::get('/customers/{user}', [CustomerController::class, 'show'])->name('customers.show');
+
+        // Gallery
+        Route::get('/invitations/{invitation}/galleries', [
+            GalleryController::class,
+            'index'
+        ])->name('invitations.galleries.index');
+
+        Route::post('/invitations/{invitation}/galleries', [
+            GalleryController::class,
+            'store'
+        ])->name('invitations.galleries.store');
+
+        Route::delete('/galleries/{gallery}', [
+            GalleryController::class,
+            'destroy'
+        ])->name('galleries.destroy');
 
 
         // Template

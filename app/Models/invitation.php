@@ -16,6 +16,13 @@ class invitation extends Model
         'slug',
         'bride_name',
         'groom_name',
+
+        'groom_photo',
+        'bride_photo',
+        'groom_profile',
+        'bride_profile',
+        'love_story',
+
         'wedding_date',
         'akad_date',
         'reception_date',

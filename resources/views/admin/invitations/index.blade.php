@@ -191,6 +191,17 @@
 
                                     </a>
 
+                                    <a
+                                        href="{{ route(
+                                            'admin.invitations.galleries.index',
+                                            $invitation
+                                        ) }}"
+                                        class="btn btn-outline-primary btn-sm"
+                                        title="Galeri"
+                                    >
+                                        <i class="bi bi-images"></i>
+                                    </a>
+
 
                                     {{-- Delete --}}
                                     <form action="{{ route(

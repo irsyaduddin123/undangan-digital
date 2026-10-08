@@ -271,6 +271,192 @@
 
         </section>
 
+        {{-- COUPLE PROFILE --}}
+
+                {{-- ==========================================
+            PROFIL MEMPELAI
+        =========================================== --}}
+
+        <section class="couple-section">
+
+            <div class="couple-inner">
+
+                <p class="section-label">
+                    THE HAPPY COUPLE
+                </p>
+
+                <h2>
+                    Mempelai
+                </h2>
+
+                <div class="section-divider"></div>
+
+
+                <div class="couple-grid">
+
+                    {{-- ==================================
+                        MEMPELAI PRIA
+                    =================================== --}}
+
+                    <article class="couple-card">
+
+                        <div class="couple-photo">
+
+                            @if($invitation->groom_photo)
+
+                                <img
+                                    src="{{ asset('storage/' . $invitation->groom_photo) }}"
+                                    alt="{{ $invitation->groom_name }}"
+                                    loading="lazy"
+                                >
+
+                            @else
+
+                                <div class="couple-photo-empty">
+                                    ♡
+                                </div>
+
+                            @endif
+
+                        </div>
+
+
+                        <div class="couple-content">
+
+                            <p class="couple-role">
+                                THE GROOM
+                            </p>
+
+                            <h3>
+                                {{ $invitation->groom_name }}
+                            </h3>
+
+
+                            <div class="couple-line"></div>
+
+
+                            @if($invitation->groom_profile)
+
+                                <p class="couple-profile">
+                                    {{ $invitation->groom_profile }}
+                                </p>
+
+                            @endif
+
+                        </div>
+
+                    </article>
+
+
+                    {{-- AMPERSAND --}}
+
+                    <div class="couple-ampersand">
+                        &
+                    </div>
+
+
+                    {{-- ==================================
+                        MEMPELAI WANITA
+                    =================================== --}}
+
+                    <article class="couple-card">
+
+                        <div class="couple-photo">
+
+                            @if($invitation->bride_photo)
+
+                                <img
+                                    src="{{ asset('storage/' . $invitation->bride_photo) }}"
+                                    alt="{{ $invitation->bride_name }}"
+                                    loading="lazy"
+                                >
+
+                            @else
+
+                                <div class="couple-photo-empty">
+                                    ♡
+                                </div>
+
+                            @endif
+
+                        </div>
+
+
+                        <div class="couple-content">
+
+                            <p class="couple-role">
+                                THE BRIDE
+                            </p>
+
+                            <h3>
+                                {{ $invitation->bride_name }}
+                            </h3>
+
+
+                            <div class="couple-line"></div>
+
+
+                            @if($invitation->bride_profile)
+
+                                <p class="couple-profile">
+                                    {{ $invitation->bride_profile }}
+                                </p>
+
+                            @endif
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        {{-- ==========================================
+            LOVE STORY
+        =========================================== --}}
+
+        @if($invitation->love_story)
+
+            <section class="love-story-section">
+
+                <div class="love-story-inner">
+
+                    <p class="section-label">
+                        OUR JOURNEY
+                    </p>
+
+                    <h2>
+                        Love Story
+                    </h2>
+
+                    <div class="section-divider"></div>
+
+
+                    <div class="love-story-content">
+
+                        <div class="love-story-icon">
+                            ♡
+                        </div>
+
+
+                        <div class="love-story-text">
+
+                            {!! nl2br(e($invitation->love_story)) !!}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        @endif
+
 
         {{-- DETAIL ACARA --}}
         <section class="event-section">
@@ -382,6 +568,63 @@
                     </a>
 
                 @endif --}}
+
+            </div>
+
+        </section>
+
+        {{-- GALLERY --}}
+        <section class="gallery-section">
+
+            <div class="gallery-inner">
+
+                <p class="section-label">
+                    OUR MEMORIES
+                </p>
+
+                <h2>
+                    Galeri Foto
+                </h2>
+
+                <div class="section-divider"></div>
+
+
+                @if($invitation->galleries->count())
+
+                    <div class="gallery-grid">
+
+                        @foreach($invitation->galleries as $gallery)
+
+                            <div class="gallery-item">
+
+                                <img
+                                    src="{{ asset(
+                                        'storage/' .
+                                        $gallery->image
+                                    ) }}"
+                                    alt="Foto {{ $invitation->groom_name }} dan {{ $invitation->bride_name }}"
+                                    loading="lazy"
+                                >
+
+                            </div>
+
+                        @endforeach
+
+                    </div>
+
+                @else
+
+                    <div class="gallery-empty">
+
+                        <span>♡</span>
+
+                        <p>
+                            Our beautiful memories
+                        </p>
+
+                    </div>
+
+                @endif
 
             </div>
 

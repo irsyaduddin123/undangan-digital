@@ -169,6 +169,7 @@
                     </div>
 
                 </div>
+                
 
 
                 {{-- SLUG --}}
@@ -246,6 +247,136 @@
 
                     </div>
 
+                </div>
+
+                {{-- Love Story --}}
+
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-heart me-2"></i>
+                            Profil Mempelai
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            {{-- Mempelai Pria --}}
+                            <div class="col-md-6 mb-4">
+
+                                <h6 class="fw-bold mb-3">
+                                    Mempelai Pria
+                                </h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Foto Mempelai Pria
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        name="groom_photo"
+                                        id="groom_photo"
+                                        class="form-control"
+                                        accept="image/*"
+                                    >
+
+                                    <div class="mt-3">
+                                        <img
+                                            id="groomPhotoPreview"
+                                            src=""
+                                            class="img-fluid rounded"
+                                            style="
+                                                max-height:250px;
+                                                display:none;
+                                            "
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Profil Mempelai Pria
+                                    </label>
+
+                                    <textarea
+                                        name="groom_profile"
+                                        class="form-control"
+                                        rows="5"
+                                        placeholder="Contoh: Putra pertama dari Bapak ... dan Ibu ..."
+                                    ></textarea>
+                                </div>
+
+                            </div>
+
+                            {{-- Mempelai Wanita --}}
+                            <div class="col-md-6 mb-4">
+
+                                <h6 class="fw-bold mb-3">
+                                    Mempelai Wanita
+                                </h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Foto Mempelai Wanita
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        name="bride_photo"
+                                        id="bride_photo"
+                                        class="form-control"
+                                        accept="image/*"
+                                    >
+
+                                    <div class="mt-3">
+                                        <img
+                                            id="bridePhotoPreview"
+                                            src=""
+                                            class="img-fluid rounded"
+                                            style="
+                                                max-height:250px;
+                                                display:none;
+                                            "
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Profil Mempelai Wanita
+                                    </label>
+
+                                    <textarea
+                                        name="bride_profile"
+                                        class="form-control"
+                                        rows="5"
+                                        placeholder="Contoh: Putri pertama dari Bapak ... dan Ibu ..."
+                                    ></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Love Story
+                            </label>
+
+                            <textarea
+                                name="love_story"
+                                class="form-control"
+                                rows="7"
+                                placeholder="Ceritakan perjalanan kisah cinta kedua mempelai..."
+                            ></textarea>
+                        </div>
+
+                    </div>
                 </div>
 
 
@@ -766,6 +897,39 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
 });
+
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+document
+    .getElementById('groom_photo')
+    .addEventListener('change', function () {
+        previewImage(
+            this,
+            'groomPhotoPreview'
+        );
+    });
+
+document
+    .getElementById('bride_photo')
+    .addEventListener('change', function () {
+        previewImage(
+            this,
+            'bridePhotoPreview'
+        );
+    });
 
 </script>
 
