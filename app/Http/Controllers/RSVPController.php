@@ -33,9 +33,11 @@ class RSVPController extends Controller
             ]
         );
 
-        return back()->with(
-            'rsvp_success',
-            'Konfirmasi kehadiran berhasil disimpan!'
-        );
+        return redirect()->back()
+            ->with(
+                'rsvp_success',
+                'Konfirmasi kehadiran berhasil disimpan!'
+            )
+            ->withFragment('rsvp');
     }
 }

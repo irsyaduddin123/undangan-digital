@@ -1163,6 +1163,165 @@ select {
     white-space: normal;
 }
 
+/* =====================================================
+   RSVP
+===================================================== */
+
+.rsvp-section {
+    padding: 70px 20px;
+    background: #f8f5f0;
+    color: #51443c;
+}
+
+.rsvp-container {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.rsvp-subtitle {
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+.rsvp-container h2 {
+    margin: 10px 0;
+    font-family: Georgia, serif;
+    font-size: 38px;
+}
+
+.rsvp-description {
+    margin-bottom: 28px;
+    line-height: 1.7;
+}
+
+.rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.rsvp-form label {
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.rsvp-form select,
+.rsvp-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d8cec4;
+    border-radius: 5px;
+    background: #fff;
+    color: #51443c;
+    font: inherit;
+}
+
+.rsvp-button {
+    margin-top: 12px;
+    padding: 13px;
+    border: none;
+    border-radius: 5px;
+    background: #51443c;
+    color: #fff;
+    cursor: pointer;
+}
+
+.rsvp-button:hover {
+    background: #3e332d;
+}
+
+.rsvp-alert {
+    padding: 12px;
+    margin-bottom: 18px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.rsvp-success {
+    background: #e5f3e8;
+    color: #245b32;
+}
+
+.rsvp-error {
+    background: #fbe7e7;
+    color: #8a2525;
+}
+
+
+.guest-messages {
+    margin: 55px auto 0;
+    max-width: 520px;
+    text-align: center;
+}
+
+.guest-messages h3 {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.guest-messages-subtitle {
+    color: #82766d;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.guest-message-card {
+    padding: 18px;
+    margin-bottom: 14px;
+    border: 1px solid #e4dcd3;
+    border-radius: 8px;
+    background: #fff;
+    text-align: left;
+}
+
+.guest-message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.guest-message-header strong {
+    color: #51443c;
+    font-size: 15px;
+}
+
+.guest-attendance {
+    font-size: 11px;
+    color: #6b625a;
+    background: #f1ece6;
+    padding: 5px 9px;
+    border-radius: 20px;
+}
+
+.guest-message-text {
+    color: #5e554e;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+    margin-bottom: 12px;
+}
+
+.guest-message-date {
+    color: #9a8f85;
+    font-size: 11px;
+}
+
+.guest-message-empty {
+    padding: 20px;
+    color: #82766d;
+    background: #fff;
+    border-radius: 8px;
+}
+
+
+
 
 /* =====================================================
    RESPONSIVE

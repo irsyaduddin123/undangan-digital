@@ -5,8 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         {{ $invitation->groom_name }}
@@ -14,8 +13,7 @@
         {{ $invitation->bride_name }}
     </title>
 
-    <link rel="stylesheet"
-          href="{{ asset('templates/elegant/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/elegant/css/style.css') }}">
 
 </head>
 
@@ -24,102 +22,81 @@
 
 
 
-{{-- ==========================================
+    {{-- ==========================================
     COVER / OPENING
 =========================================== --}}
 
-<section
-    class="opening-screen"
-    id="openingScreen"
-
-    @if($invitation->cover_image)
-        style="
+    <section class="opening-screen" id="openingScreen"
+        @if ($invitation->cover_image) style="
             background-image:
                 linear-gradient(
                     rgba(20, 18, 15, 0.45),
                     rgba(20, 18, 15, 0.70)
                 ),
                 url('{{ asset('storage/' . $invitation->cover_image) }}');
-        "
-    @endif
->
-    <div class="opening-content">
+        " @endif>
+        <div class="opening-content">
 
-        <p class="opening-small-text">
-            THE WEDDING OF
-        </p>
+            <p class="opening-small-text">
+                THE WEDDING OF
+            </p>
 
-        <div class="opening-names">
-            <h1>{{ $invitation->groom_name }}</h1>
+            <div class="opening-names">
+                <h1>{{ $invitation->groom_name }}</h1>
 
-            <div class="opening-ampersand">&</div>
+                <div class="opening-ampersand">&</div>
 
-            <h1>{{ $invitation->bride_name }}</h1>
-        </div>
-
-        <div class="opening-line"></div>
-
-        <p class="opening-date">
-            {{ $invitation->wedding_date?->translatedFormat('d F Y') }}
-        </p>
-
-        {{-- Nama tamu hanya muncul pada link personal --}}
-        @if(isset($invitationGuest))
-            <div class="guest-opening">
-                <p class="guest-greeting">Kepada Yth.</p>
-
-                <h2 class="guest-name">
-                    {{ $invitationGuest->guest_name }}
-                </h2>
-
-                <p class="guest-message">
-                    Kami mengundang Anda untuk hadir
-                    di hari bahagia kami.
-                </p>
+                <h1>{{ $invitation->bride_name }}</h1>
             </div>
-        @endif
 
-        <button
-            type="button"
-            id="openInvitation"
-            class="open-button"
-        >
-            <span class="button-icon">♡</span>
-            <span>Buka Undangan</span>
-        </button>
+            <div class="opening-line"></div>
 
-    </div>
-</section>
+            <p class="opening-date">
+                {{ $invitation->wedding_date?->translatedFormat('d F Y') }}
+            </p>
 
-        {{-- ==========================================
+            {{-- Nama tamu hanya muncul pada link personal --}}
+            @if (isset($invitationGuest))
+                <div class="guest-opening">
+                    <p class="guest-greeting">Kepada Yth.</p>
+
+                    <h2 class="guest-name">
+                        {{ $invitationGuest->guest_name }}
+                    </h2>
+
+                    <p class="guest-message">
+                        Kami mengundang Anda untuk hadir
+                        di hari bahagia kami.
+                    </p>
+                </div>
+            @endif
+
+            <button type="button" id="openInvitation" class="open-button">
+                <span class="button-icon">♡</span>
+                <span>Buka Undangan</span>
+            </button>
+
+        </div>
+    </section>
+
+    {{-- ==========================================
             BACKGROUND MUSIC
         =========================================== --}}
 
-        @if($invitation->music)
+    @if ($invitation->music)
+        <audio id="bgMusic" loop preload="auto">
+            <source src="{{ asset('storage/' . $invitation->music) }}" type="audio/mpeg">
 
-            <audio
-                id="bgMusic"
-                loop
-                preload="auto"
-            >
-                <source
-                    src="{{ asset('storage/' . $invitation->music) }}"
-                    type="audio/mpeg"
-                >
-
-                Browser Anda tidak mendukung audio.
-            </audio>
-
-        @endif
+            Browser Anda tidak mendukung audio.
+        </audio>
+    @endif
 
 
     {{-- ==========================================
         MAIN INVITATION
     =========================================== --}}
 
-    <main
-        id="invitationContent"
-        class="invitation-content">
+    <main id="invitationContent" class="invitation-content">
 
 
         {{-- HERO --}}
@@ -180,11 +157,7 @@
                 <div class="section-divider"></div>
 
 
-                <div
-                    class="countdown"
-                    id="countdown"
-                    data-date="{{ $invitation->wedding_date?->format('Y-m-d') }}"
-                >
+                <div class="countdown" id="countdown" data-date="{{ $invitation->wedding_date?->format('Y-m-d') }}">
 
                     <div class="countdown-item">
 
@@ -267,7 +240,7 @@
 
         {{-- COUPLE PROFILE --}}
 
-                {{-- ==========================================
+        {{-- ==========================================
             PROFIL MEMPELAI
         =========================================== --}}
 
@@ -291,27 +264,20 @@
                     {{-- ==================================
                         MEMPELAI PRIA
                     =================================== --}}
-                    
+
 
                     <article class="couple-card">
                         <h2 class="couple-heading">Mempelai Pria</h2>
 
                         <div class="couple-photo">
 
-                            @if($invitation->groom_photo)
-
-                                <img
-                                    src="{{ asset('storage/' . $invitation->groom_photo) }}"
-                                    alt="{{ $invitation->groom_name }}"
-                                    loading="lazy"
-                                >
-
+                            @if ($invitation->groom_photo)
+                                <img src="{{ asset('storage/' . $invitation->groom_photo) }}"
+                                    alt="{{ $invitation->groom_name }}" loading="lazy">
                             @else
-
                                 <div class="couple-photo-empty">
                                     ♡
                                 </div>
-
                             @endif
 
                         </div>
@@ -331,12 +297,10 @@
                             <div class="couple-line"></div>
 
 
-                            @if($invitation->groom_profile)
-
+                            @if ($invitation->groom_profile)
                                 <p class="couple-profile">
                                     {{ $invitation->groom_profile }}
                                 </p>
-
                             @endif
 
                         </div>
@@ -355,27 +319,20 @@
                         MEMPELAI WANITA
                     =================================== --}}
 
-                    
+
 
                     <article class="couple-card">
                         <h2 class="couple-heading">Mempelai Wanita</h2>
 
                         <div class="couple-photo">
 
-                            @if($invitation->bride_photo)
-
-                                <img
-                                    src="{{ asset('storage/' . $invitation->bride_photo) }}"
-                                    alt="{{ $invitation->bride_name }}"
-                                    loading="lazy"
-                                >
-
+                            @if ($invitation->bride_photo)
+                                <img src="{{ asset('storage/' . $invitation->bride_photo) }}"
+                                    alt="{{ $invitation->bride_name }}" loading="lazy">
                             @else
-
                                 <div class="couple-photo-empty">
                                     ♡
                                 </div>
-
                             @endif
 
                         </div>
@@ -395,12 +352,10 @@
                             <div class="couple-line"></div>
 
 
-                            @if($invitation->bride_profile)
-
+                            @if ($invitation->bride_profile)
                                 <p class="couple-profile">
                                     {{ $invitation->bride_profile }}
                                 </p>
-
                             @endif
 
                         </div>
@@ -418,8 +373,7 @@
             LOVE STORY
         =========================================== --}}
 
-        @if($invitation->love_story)
-
+        @if ($invitation->love_story)
             <section class="love-story-section">
 
                 <div class="love-story-inner">
@@ -453,7 +407,6 @@
                 </div>
 
             </section>
-
         @endif
 
 
@@ -486,8 +439,7 @@
                             Akad Nikah
                         </h3>
 
-                        @if($invitation->akad_date)
-
+                        @if ($invitation->akad_date)
                             <p class="event-date">
                                 {{ $invitation->akad_date->translatedFormat('l, d F Y') }}
                             </p>
@@ -495,7 +447,6 @@
                             <p class="event-time">
                                 {{ $invitation->akad_date->format('H:i') }} WIB
                             </p>
-
                         @endif
 
                         <div class="event-line"></div>
@@ -504,7 +455,7 @@
                             {{ $invitation->location_name }}
                         </p>
 
-                        @if($invitation->address)
+                        @if ($invitation->address)
                             <p class="event-address">
                                 {{ $invitation->address }}
                             </p>
@@ -524,8 +475,7 @@
                             Resepsi
                         </h3>
 
-                        @if($invitation->reception_date)
-
+                        @if ($invitation->reception_date)
                             <p class="event-date">
                                 {{ $invitation->reception_date->translatedFormat('l, d F Y') }}
                             </p>
@@ -533,7 +483,6 @@
                             <p class="event-time">
                                 {{ $invitation->reception_date->format('H:i') }} WIB
                             </p>
-
                         @endif
 
                         <div class="event-line"></div>
@@ -542,7 +491,7 @@
                             {{ $invitation->location_name }}
                         </p>
 
-                        @if($invitation->address)
+                        @if ($invitation->address)
                             <p class="event-address">
                                 {{ $invitation->address }}
                             </p>
@@ -554,7 +503,7 @@
 
 
                 {{-- GOOGLE MAPS
-                @if($invitation->google_maps)
+                @if ($invitation->google_maps)
 
                     <a
                         href="{{ $invitation->google_maps }}"
@@ -588,31 +537,22 @@
                 <div class="section-divider"></div>
 
 
-                @if($invitation->galleries->count())
+                @if ($invitation->galleries->count())
 
                     <div class="gallery-grid">
 
-                        @foreach($invitation->galleries as $gallery)
-
+                        @foreach ($invitation->galleries as $gallery)
                             <div class="gallery-item">
 
-                                <img
-                                    src="{{ asset(
-                                        'storage/' .
-                                        $gallery->image
-                                    ) }}"
+                                <img src="{{ asset('storage/' . $gallery->image) }}"
                                     alt="Foto {{ $invitation->groom_name }} dan {{ $invitation->bride_name }}"
-                                    loading="lazy"
-                                >
+                                    loading="lazy">
 
                             </div>
-
                         @endforeach
 
                     </div>
-
                 @else
-
                     <div class="gallery-empty">
 
                         <span>♡</span>
@@ -630,124 +570,208 @@
         </section>
 
         {{-- MAPS --}}
-<section class="map-section">
+        <section class="map-section">
 
-    <div class="map-inner">
+            <div class="map-inner">
 
-        <p class="section-label">
-            OUR LOCATION
-        </p>
+                <p class="section-label">
+                    OUR LOCATION
+                </p>
 
-        <h2>
-            Lokasi Acara
-        </h2>
+                <h2>
+                    Lokasi Acara
+                </h2>
 
-        <div class="section-divider"></div>
-
-
-        @php
-
-            $mapQuery = $invitation->location_name;
-
-            if ($invitation->address) {
-                $mapQuery .= ', ' . $invitation->address;
-            }
-
-            $mapEmbedUrl =
-                'https://www.google.com/maps?q=' .
-                urlencode($mapQuery) .
-                '&output=embed';
-
-        @endphp
+                <div class="section-divider"></div>
 
 
-        <div class="map-card">
+                @php
 
-            {{-- MAP --}}
-            <div class="map-frame">
+                    $mapQuery = $invitation->location_name;
 
-                @if($invitation->location_name)
+                    if ($invitation->address) {
+                        $mapQuery .= ', ' . $invitation->address;
+                    }
 
-                    <iframe
-                        src="{{ $mapEmbedUrl }}"
-                        width="100%"
-                        height="450"
-                        style="border:0;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    $mapEmbedUrl = 'https://www.google.com/maps?q=' . urlencode($mapQuery) . '&output=embed';
 
-                @else
+                @endphp
 
-                    <div class="map-placeholder">
 
-                        <div class="map-placeholder-icon">
-                            ⌖
-                        </div>
+                <div class="map-card">
 
-                        <p>
-                            Lokasi belum tersedia
-                        </p>
+                    {{-- MAP --}}
+                    <div class="map-frame">
+
+                        @if ($invitation->location_name)
+                            <iframe src="{{ $mapEmbedUrl }}" width="100%" height="450" style="border:0;"
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        @else
+                            <div class="map-placeholder">
+
+                                <div class="map-placeholder-icon">
+                                    ⌖
+                                </div>
+
+                                <p>
+                                    Lokasi belum tersedia
+                                </p>
+
+                            </div>
+                        @endif
 
                     </div>
 
-                @endif
 
-            </div>
+                    {{-- LOCATION INFO --}}
+                    <div class="map-info">
+
+                        <div class="map-icon">
+                            ⌖
+                        </div>
+
+                        <div class="map-text">
+
+                            <h3>
+                                {{ $invitation->location_name }}
+                            </h3>
+
+                            @if ($invitation->address)
+                                <p>
+                                    {{ $invitation->address }}
+                                </p>
+                            @endif
+
+                        </div>
+
+                    </div>
 
 
-            {{-- LOCATION INFO --}}
-            <div class="map-info">
-
-                <div class="map-icon">
-                    ⌖
-                </div>
-
-                <div class="map-text">
-
-                    <h3>
-                        {{ $invitation->location_name }}
-                    </h3>
-
-                    @if($invitation->address)
-
-                        <p>
-                            {{ $invitation->address }}
-                        </p>
-
+                    {{-- GOOGLE MAPS BUTTON --}}
+                    @if ($invitation->google_maps)
+                        <a href="{{ $invitation->google_maps }}" target="_blank" rel="noopener noreferrer"
+                            class="map-open-button">
+                            <span>⌖</span>
+                            Buka Google Maps
+                        </a>
                     @endif
 
                 </div>
 
             </div>
 
+        </section>
 
-            {{-- GOOGLE MAPS BUTTON --}}
-            @if($invitation->google_maps)
 
-                <a
-                    href="{{ $invitation->google_maps }}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="map-open-button"
-                >
-                    <span>⌖</span>
-                    Buka Google Maps
-                </a>
+        {{-- BAGIAN RSVP --}}
+        @if (isset($invitationGuest))
+            <section class="rsvp-section" id="rsvp">
+                <div class="rsvp-container">
+                    <p class="rsvp-subtitle">KONFIRMASI KEHADIRAN</p>
+                    {{-- <h2>RESERVATION</h2> --}}
+                    <p class="rsvp-description">
+                        Halo, {{ $invitationGuest->guest_name }}.
+                        Mohon konfirmasikan kehadiran Anda.
+                    </p>
 
-            @endif
+                    @if (session('rsvp_success'))
+                        <div class="rsvp-alert rsvp-success">
+                            {{ session('rsvp_success') }}
+                        </div>
+                    @endif
 
+                    @if ($errors->any())
+                        <div class="rsvp-alert rsvp-error">
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
+
+                    <form
+                        action="{{ route('invitation.guest.rsvp', [
+                            'invitation' => $invitation->slug,
+                            'invitationGuest' => $invitationGuest->slug,
+                        ]) }}"
+                        method="POST" class="rsvp-form">
+                        @csrf
+
+                        <label for="attendance">Konfirmasi Kehadiran</label>
+                        <select name="attendance" id="attendance" required>
+                            <option value="">Pilih konfirmasi</option>
+                            <option value="hadir" {{ old('attendance') === 'hadir' ? 'selected' : '' }}>
+                                Hadir
+                            </option>
+                            <option value="tidak_hadir" {{ old('attendance') === 'tidak_hadir' ? 'selected' : '' }}>
+                                Tidak Hadir
+                            </option>
+                            <option value="ragu" {{ old('attendance') === 'ragu' ? 'selected' : '' }}>
+                                Masih Ragu
+                            </option>
+                        </select>
+
+                        <label for="message">Ucapan atau Doa (Opsional)</label>
+                        <textarea name="message" id="message" rows="4"
+                            placeholder="Tuliskan ucapan dan doa untuk kedua mempelai...">{{ old('message') }}</textarea>
+
+                        <button type="submit" class="rsvp-button">
+                            Kirim Konfirmasi
+                        </button>
+                    </form>
+                </div>
+            </section>
+        @endif
+
+
+        {{-- DAFTAR UCAPAN TAMU --}}
+        <div class="guest-messages">
+            <h3>Ucapan & Doa</h3>
+            <p class="guest-messages-subtitle">
+                Doa dan ucapan hangat dari keluarga dan sahabat.
+            </p>
+
+            @php
+                $guestMessages = \App\Models\GuestBook::where('invitation_id', $invitation->id)
+                    ->whereNotNull('message')
+                    ->where('message', '!=', '')
+                    ->latest()
+                    ->get();
+            @endphp
+
+            @forelse ($guestMessages as $guestMessage)
+                <div class="guest-message-card">
+                    <div class="guest-message-header">
+                        <strong>{{ $guestMessage->guest_name }}</strong>
+
+                        <span class="guest-attendance">
+                            @if ($guestMessage->attendance === 'hadir')
+                                Hadir
+                            @elseif ($guestMessage->attendance === 'tidak_hadir')
+                                Tidak Hadir
+                            @else
+                                Masih Ragu
+                            @endif
+                        </span>
+                    </div>
+
+                    <p class="guest-message-text">
+                        {{ $guestMessage->message }}
+                    </p>
+
+                    <small class="guest-message-date">
+                        {{ $guestMessage->created_at->translatedFormat('d F Y, H:i') }}
+                    </small>
+                </div>
+            @empty
+                <p class="guest-message-empty">
+                    Belum ada ucapan. Jadilah yang pertama memberikan doa!
+                </p>
+            @endforelse
         </div>
 
-    </div>
 
-</section>
 
 
     </main>
-
-
 
     <script src="{{ asset('templates/elegant/js/script.js') }}"></script>
 
