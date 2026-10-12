@@ -23,80 +23,74 @@
 <body>
 
 
-    {{-- ==========================================
-        COVER / OPENING
-    =========================================== --}}
 
-    <section
-        class="opening-screen"
-        id="openingScreen"
+{{-- ==========================================
+    COVER / OPENING
+=========================================== --}}
 
-        @if($invitation->cover_image)
+<section
+    class="opening-screen"
+    id="openingScreen"
 
-            style="
-                background-image:
-                    linear-gradient(
-                        rgba(20, 18, 15, 0.45),
-                        rgba(20, 18, 15, 0.70)
-                    ),
-                    url('{{ asset('storage/' . $invitation->cover_image) }}');
-            "
+    @if($invitation->cover_image)
+        style="
+            background-image:
+                linear-gradient(
+                    rgba(20, 18, 15, 0.45),
+                    rgba(20, 18, 15, 0.70)
+                ),
+                url('{{ asset('storage/' . $invitation->cover_image) }}');
+        "
+    @endif
+>
+    <div class="opening-content">
 
-        @endif
-    >
+        <p class="opening-small-text">
+            THE WEDDING OF
+        </p>
 
-        <div class="opening-content">
+        <div class="opening-names">
+            <h1>{{ $invitation->groom_name }}</h1>
 
-            <p class="opening-small-text">
-                THE WEDDING OF
-            </p>
+            <div class="opening-ampersand">&</div>
 
-
-            <div class="opening-names">
-
-                <h1>
-                    {{ $invitation->groom_name }}
-                </h1>
-
-                <div class="opening-ampersand">
-                    &
-                </div>
-
-                <h1>
-                    {{ $invitation->bride_name }}
-                </h1>
-
-            </div>
-
-
-            <div class="opening-line"></div>
-
-
-            <p class="opening-date">
-
-                {{ $invitation->wedding_date?->translatedFormat('d F Y') }}
-
-            </p>
-
-
-            <button
-                type="button"
-                id="openInvitation"
-                class="open-button">
-
-                <span class="button-icon">
-                    ♡
-                </span>
-
-                <span>
-                    Buka Undangan
-                </span>
-
-            </button>
-
+            <h1>{{ $invitation->bride_name }}</h1>
         </div>
 
-    </section>
+        <div class="opening-line"></div>
+
+        <p class="opening-date">
+            {{ $invitation->wedding_date?->translatedFormat('d F Y') }}
+        </p>
+
+        {{-- Nama tamu hanya muncul pada link personal --}}
+        @if(isset($invitationGuest))
+            <div class="guest-opening">
+                <p class="guest-greeting">Kepada Yth.</p>
+
+                <h2 class="guest-name">
+                    {{ $invitationGuest->guest_name }}
+                </h2>
+
+                <p class="guest-message">
+                    Kami mengundang Anda untuk hadir
+                    di hari bahagia kami.
+                </p>
+            </div>
+        @endif
+
+        <button
+            type="button"
+            id="openInvitation"
+            class="open-button"
+        >
+            <span class="button-icon">♡</span>
+            <span>Buka Undangan</span>
+        </button>
+
+    </div>
+</section>
+
         {{-- ==========================================
             BACKGROUND MUSIC
         =========================================== --}}
@@ -286,7 +280,7 @@
                 </p>
 
                 <h2>
-                    Mempelai
+                    {{ $invitation->groom_name }} & {{ $invitation->bride_name }}
                 </h2>
 
                 <div class="section-divider"></div>
@@ -297,8 +291,10 @@
                     {{-- ==================================
                         MEMPELAI PRIA
                     =================================== --}}
+                    
 
                     <article class="couple-card">
+                        <h2 class="couple-heading">Mempelai Pria</h2>
 
                         <div class="couple-photo">
 
@@ -359,7 +355,10 @@
                         MEMPELAI WANITA
                     =================================== --}}
 
+                    
+
                     <article class="couple-card">
+                        <h2 class="couple-heading">Mempelai Wanita</h2>
 
                         <div class="couple-photo">
 

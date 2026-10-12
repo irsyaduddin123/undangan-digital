@@ -81,4 +81,9 @@ class invitation extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function invitationGuests()
+    {
+        return $this->hasMany(InvitationGuest::class);
+    }
 }

@@ -66,6 +66,7 @@
         </a>
 
 
+
         {{-- CUSTOMER --}}
         <div class="menu-title">
             CUSTOMER
@@ -81,6 +82,13 @@
             <i class="bi bi-chat-heart-fill"></i>
             <span>Buku Tamu</span>
         </a>
+
+        <a href="{{ route('admin.invitation-guests.index') }}"
+           class="{{ request()->routeIs('admin.invitation-guests.*') ? 'active' : '' }}">
+            <i class="bi bi-envelope-paper-heart"></i>
+            <span>Invitation Guests</span>
+        </a>
+
 
 
         {{-- SYSTEM --}}

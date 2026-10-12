@@ -5,9 +5,11 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\InvitationController;
+use App\Http\Controllers\Admin\InvitationGuestController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicInvitationController;
+use App\Http\Controllers\RSVPController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\TemplateController;
 
@@ -114,7 +116,21 @@ Route::middleware(['auth', 'role:admin'])
             'destroy'
         ])->name('invitations.destroy');
 
-            });
+        // Invitation Guests
+        Route::get('/invitation-guests', [InvitationGuestController::class, 'index'])
+            ->name('invitation-guests.index');
+
+        Route::get('/invitation-guests/{invitation}', [InvitationGuestController::class, 'guests'])
+            ->name('invitation-guests.guests');
+
+        Route::post('/invitation-guests/{invitation}', [InvitationGuestController::class, 'store'])
+            ->name('invitation-guests.store');
+
+        Route::delete('/invitation-guests/{invitation}/guest/{invitationGuest}', [InvitationGuestController::class, 'destroy'])
+            ->name('invitation-guests.destroy');
+
+});
+
 
 
 /*
@@ -150,6 +166,17 @@ Route::get('/undangan/{invitation:slug}', [
     PublicInvitationController::class,
     'show'
 ])->name('invitation.show');
+
+
+Route::get('/undangan/{invitation:slug}/tamu/{invitationGuest:slug}', [
+    PublicInvitationController::class,
+    'showGuest'
+])->name('invitation.guest.show');
+
+Route::post(
+    '/undangan/{invitation:slug}/tamu/{invitationGuest:slug}/rsvp',
+    [RSVPController::class, 'store']
+)->name('invitation.guest.rsvp');
 
 
 /*

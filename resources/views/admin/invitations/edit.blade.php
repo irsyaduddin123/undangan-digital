@@ -290,9 +290,11 @@
                                     @if($invitation->groom_photo)
                                         <div class="mt-3">
                                             <img
+                                            id="groomPhotoPreview"
                                                 src="{{ asset('storage/' . $invitation->groom_photo) }}"
                                                 class="img-fluid rounded"
                                                 style="max-height:250px;"
+                                                alt="Foto Mempelai Pria"
                                             >
                                         </div>
                                     @endif
@@ -335,9 +337,11 @@
                                 @if($invitation->bride_photo)
                                     <div class="mt-3">
                                         <img
+                                        id="bridePhotoPreview"
                                             src="{{ asset('storage/' . $invitation->bride_photo) }}"
                                             class="img-fluid rounded"
                                             style="max-height:250px;"
+                                            alt="Foto Mempelai Wanita"
                                         >
                                     </div>
                                 @endif
@@ -1012,6 +1016,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
     );
+
+    
+    // PREVIEW FOTO MEMPELAI
+    function previewCouplePhoto(input, previewId) {
+        const preview = document.getElementById(previewId);
+
+        if (!input.files || !input.files[0]) {
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            preview.src = event.target.result;
+            preview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    const groomPhotoInput = document.getElementById('groom_photo');
+    const bridePhotoInput = document.getElementById('bride_photo');
+
+    if (groomPhotoInput) {
+        groomPhotoInput.addEventListener('change', function () {
+            previewCouplePhoto(this, 'groomPhotoPreview');
+        });
+    }
+
+    if (bridePhotoInput) {
+        bridePhotoInput.addEventListener('change', function () {
+            previewCouplePhoto(this, 'bridePhotoPreview');
+        });
+    }
+
 
 });
 
