@@ -22,6 +22,13 @@ class InvitationGuest extends Model
 
     public function GuestBook()
     {
-        return $this->hasMany(GuestBook::class);
+        return $this->hasMany(GuestBook::class,'invitation_guest_id');
     }
+//     public function guestBooks()
+// {
+//     return $this->hasMany(
+//         GuestBook::class,
+//         'invitation_guest_id'
+//     );
+// }
 }

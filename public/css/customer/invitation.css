@@ -1,0 +1,121 @@
+.invitation-total {
+    background: #edf3fc;
+    color: #4169a1;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 20px;
+}
+
+.invitation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.invitation-item:first-child {
+    padding-top: 5px;
+}
+
+.invitation-item:last-child {
+    border-bottom: none;
+    padding-bottom: 5px;
+}
+
+.invitation-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.invitation-icon {
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf3fc;
+    color: #4169a1;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+.invitation-detail h6 {
+    color: #172b4d;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.invitation-detail p {
+    color: #8792a2;
+    font-size: 12px;
+    margin-bottom: 9px;
+}
+
+.invitation-detail p i {
+    margin-right: 5px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #edf3fc;
+    color: #4169a1;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.invitation-actions {
+    flex-shrink: 0;
+}
+
+.btn-view-invitation {
+    display: inline-block;
+    padding: 10px 14px;
+    background: #172b4d;
+    color: #fff;
+    border-radius: 7px;
+    font-size: 12px;
+    text-decoration: none;
+    transition: background .2s;
+}
+
+.btn-view-invitation:hover {
+    background: #243b61;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-view-invitation i {
+    margin-right: 5px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 576px) {
+    .invitation-item {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .invitation-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+
+    .invitation-detail h6 {
+        font-size: 14px;
+    }
+
+    .invitation-actions {
+        padding-left: 61px;
+    }
+}

@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\Admin\CustomerController;
@@ -7,6 +6,7 @@ use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\InvitationGuestController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Customer\InvitationGuestController as CustomerInvitationGuestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicInvitationController;
 use App\Http\Controllers\RSVPController;
@@ -129,7 +129,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::delete('/invitation-guests/{invitation}/guest/{invitationGuest}', [InvitationGuestController::class, 'destroy'])
             ->name('invitation-guests.destroy');
 
-});
+    });
 
 
 
@@ -139,7 +139,7 @@ Route::middleware(['auth', 'role:admin'])
 |--------------------------------------------------------------------------
 */
 
-/*Route::middleware(['auth', 'role:customer'])
+Route::middleware(['auth', 'role:customer'])
     ->prefix('customer')
     ->name('customer.')
     ->group(function () {
@@ -148,6 +148,25 @@ Route::middleware(['auth', 'role:admin'])
             CustomerDashboardController::class,
             'index'
         ])->name('dashboard');
+
+        Route::get('/undangan-saya', [
+            CustomerDashboardController::class,
+            'invitations'
+        ])->name('invitations');
+        Route::get('/daftar-tamu', [
+            CustomerInvitationGuestController::class,
+            'index'
+        ])->name('guests');
+
+        Route::get('/daftar-tamu/tambah', [
+            CustomerInvitationGuestController::class,
+            'create'
+        ])->name('guests.create');
+
+        Route::post('/daftar-tamu/tambah', [
+            CustomerInvitationGuestController::class,
+            'store'
+        ])->name('guests.store');
 
     });
 
@@ -211,4 +230,4 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
