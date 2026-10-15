@@ -69,4 +69,51 @@ class InvitationGuestController extends Controller
             ->route('customer.guests')
             ->with('success', 'Tamu berhasil ditambahkan.');
     }
+
+    public function edit($id){
+        $guest = InvitationGuest::with('invitation')
+            ->whereHas('invitation', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->findOrFail($id);
+
+            $invitations = Invitation::where(
+                'user_id',
+                auth()->id()
+            )->latest()->get();
+
+            return view('customer.guests.edit', compact('guest', 'invitations'));
+    }
+
+    public function update(Request $request, $id){
+        $request->validate([
+            'guest_name' => ['required', 'string', 'max:255'],
+            ]);
+
+            $guest = InvitationGuest::whereHas('invitation', function ($query) {
+                $query->where('user_id', auth()->id());
+            })->findOrFail($id);
+
+            $guest->update([
+                'guest_name' => $request->guest_name,
+            ]);
+            return redirect()
+                ->route('customer.guests')
+                ->with('success', 'Tamu berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $guest = InvitationGuest::whereHas('invitation', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->findOrFail($id);
+
+        $guest->GuestBook()->delete();
+        $guest->delete();
+
+        return redirect()
+            ->route('customer.guests')
+            ->with('success', 'Tamu berhasil dihapus.');
+    }
+
 }

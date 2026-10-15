@@ -169,6 +169,22 @@ Route::middleware(['auth', 'role:customer'])
             'store'
         ])->name('guests.store');
 
+        Route::get('/daftar-tamu/{id}/edit', [
+            CustomerInvitationGuestController::class,
+            'edit'
+        ])->name('guests.edit');
+
+        Route::put('/daftar-tamu/{id}', [
+            CustomerInvitationGuestController::class,
+            'update'
+        ])->name('guests.update');
+
+        Route::delete('/daftar-tamu/{id}', [
+            CustomerInvitationGuestController::class,
+            'destroy'
+        ])->name('guests.destroy');
+
+
         Route::get('/rekap-rsvp', [
             CustomerDashboardController::class,
             'rsvp'
