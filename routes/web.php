@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\InvitationGuestController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\InvitationGuestController as CustomerInvitationGuestController;
+use App\Http\Controllers\Customer\RSVPController as CustomerRSVPController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicInvitationController;
 use App\Http\Controllers\RSVPController;
@@ -167,6 +168,16 @@ Route::middleware(['auth', 'role:customer'])
             CustomerInvitationGuestController::class,
             'store'
         ])->name('guests.store');
+
+        Route::get('/rekap-rsvp', [
+            CustomerDashboardController::class,
+            'rsvp'
+        ])->name('rsvp');
+
+        Route::get('/rekap-rsvp', [
+            CustomerRSVPController::class,
+            'index'
+        ])->name('rsvp');
 
     });
 

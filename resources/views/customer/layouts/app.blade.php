@@ -308,7 +308,7 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('customer.rsvp') }}">
                     <i class="fas fa-chart-bar"></i>
                     Rekap RSVP
                 </a>

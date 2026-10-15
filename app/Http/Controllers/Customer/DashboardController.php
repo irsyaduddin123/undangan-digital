@@ -25,34 +25,32 @@ class DashboardController extends Controller
             $invitationIds
         )->count();
 
-        // Rekap RSVP
-        $hadir = GuestBook::whereIn(
-            'invitation_id',
-            $invitationIds
-        )->where('attendance', 'hadir')->count();
+        // Ambil RSVP dari tamu undangan milik customer
+        $rsvp = GuestBook::whereIn('invitation_id', $invitationIds)
+            ->whereNotNull('invitation_guest_id')
+            ->selectRaw('invitation_guest_id, MAX(id) as latest_id')
+            ->groupBy('invitation_guest_id')
+            ->get()
+            ->map(function ($item) {
+                return GuestBook::find($item->latest_id);
+            })
+            ->filter();
 
-        $tidakHadir = GuestBook::whereIn(
-            'invitation_id',
-            $invitationIds
-        )->where('attendance', 'tidak_hadir')->count();
+        // Hitung status berdasarkan respons terakhir setiap tamu
+        $hadir = $rsvp->where('attendance', 'hadir')->count();
 
-        $ragu = GuestBook::whereIn(
-            'invitation_id',
-            $invitationIds
-        )->where('attendance', 'ragu')->count();
+        $tidakHadir = $rsvp->where('attendance', 'tidak_hadir')->count();
+
+        $ragu = $rsvp->where('attendance', 'ragu')->count();
+
+        $sudahKonfirmasi = $rsvp->count();
 
         // Tamu yang belum memberikan konfirmasi
-        $sudahKonfirmasi = GuestBook::whereIn(
-            'invitation_id',
-            $invitationIds
-        )->whereNotNull('invitation_guest_id')
-         ->distinct('invitation_guest_id')
-         ->count('invitation_guest_id');
-
         $belumKonfirmasi = max(
             0,
             $totalGuests - $sudahKonfirmasi
         );
+
 
         return view('customer.dashboard', compact(
             'invitations',

@@ -1,0 +1,154 @@
+
+.rsvp-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.rsvp-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 22px;
+    background: #fff;
+    border: 1px solid #e8edf4;
+    border-radius: 12px;
+}
+
+.rsvp-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.rsvp-stat-icon.total {
+    background: #eaf0fa;
+    color: #254b82;
+}
+
+.rsvp-stat-icon.hadir {
+    background: #e7f7ed;
+    color: #198754;
+}
+
+.rsvp-stat-icon.tidak-hadir {
+    background: #fdeaea;
+    color: #dc3545;
+}
+
+.rsvp-stat-icon.ragu {
+    background: #fff4d8;
+    color: #b58105;
+}
+
+.rsvp-stat-icon.belum {
+    background: #edf0f5;
+    color: #65748b;
+}
+
+.rsvp-stat-card p {
+    margin: 0 0 6px;
+    color: #778399;
+    font-size: 13px;
+}
+
+.rsvp-stat-card h3 {
+    margin: 0;
+    color: #172b4d;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.rsvp-table {
+    margin-bottom: 0;
+    color: #344054;
+    font-size: 13px;
+}
+
+.rsvp-table thead th {
+    padding: 14px;
+    background: #f7f9fc;
+    border-top: none;
+    color: #64748b;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.rsvp-table tbody td {
+    padding: 15px 14px;
+    vertical-align: middle;
+}
+
+.attendance-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.attendance-badge.hadir {
+    background: #e7f7ed;
+    color: #198754;
+}
+
+.attendance-badge.tidak-hadir {
+    background: #fdeaea;
+    color: #dc3545;
+}
+
+.attendance-badge.ragu {
+    background: #fff4d8;
+    color: #946c00;
+}
+
+.attendance-badge.belum {
+    background: #edf0f5;
+    color: #65748b;
+}
+
+.empty-state {
+    padding: 45px 20px;
+    text-align: center;
+}
+
+.empty-state > i {
+    margin-bottom: 15px;
+    color: #9aa8bc;
+    font-size: 36px;
+}
+
+.empty-state h5 {
+    color: #263449;
+    font-weight: 600;
+}
+
+.empty-state p {
+    margin-bottom: 0;
+    color: #778399;
+    font-size: 13px;
+}
+
+@media (max-width: 992px) {
+    .rsvp-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .rsvp-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .rsvp-stat-card {
+        padding: 17px;
+    }
+}
