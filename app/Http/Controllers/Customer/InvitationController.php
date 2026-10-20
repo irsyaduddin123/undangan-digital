@@ -104,7 +104,7 @@ class InvitationController extends Controller
             'google_maps' => $validated['google_maps'] ?? null,
             'cover_image' => $coverImage,
             'music' => $music,
-            'status' => 'active',
+            'status' => 'draft',
         ]);
 
         return redirect()

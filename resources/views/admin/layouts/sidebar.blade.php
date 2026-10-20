@@ -21,8 +21,7 @@
             MAIN MENU
         </div>
 
-        <a href="{{ route('admin.dashboard') }}"
-           class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <i class="bi bi-grid-1x2-fill"></i>
             <span>Dashboard</span>
         </a>
@@ -39,7 +38,7 @@
         </a>
 
         <a href="{{ route('admin.templates.index') }}"
-           class="{{ request()->routeIs('admin.templates.*') ? 'active' : '' }}">
+            class="{{ request()->routeIs('admin.templates.*') ? 'active' : '' }}">
             <i class="bi bi-palette-fill"></i>
             <span>Template</span>
         </a>
@@ -73,7 +72,7 @@
         </div>
 
         <a href="{{ route('admin.customers.index') }}"
-           class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+            class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
             <i class="bi bi-people-fill"></i>
             <span>Customer</span>
         </a>
@@ -84,7 +83,7 @@
         </a>
 
         <a href="{{ route('admin.invitation-guests.index') }}"
-           class="{{ request()->routeIs('admin.invitation-guests.*') ? 'active' : '' }}">
+            class="{{ request()->routeIs('admin.invitation-guests.*') ? 'active' : '' }}">
             <i class="bi bi-envelope-paper-heart"></i>
             <span>Invitation Guests</span>
         </a>
@@ -112,15 +111,15 @@
 
 
 <style>
-
     /* ========================================
        SIDEBAR
     ======================================== */
 
     .sidebar {
         width: 250px;
-        min-height: 100vh;
+        height: 100vh;
         background: #0b1736;
+
         position: fixed;
         left: 0;
         top: 0;
@@ -129,8 +128,11 @@
         box-shadow: 4px 0 15px rgba(0, 0, 0, 0.08);
 
         overflow-y: auto;
-    }
+        overflow-x: hidden;
 
+        scrollbar-width: thin;
+        scrollbar-color: #1e3a70 #0b1736;
+    }
 
     /* ========================================
        BRAND
@@ -214,7 +216,7 @@
 
         margin:
 
-        20px 10px 8px;
+            20px 10px 8px;
     }
 
 
@@ -334,7 +336,7 @@
     ======================================== */
 
     .sidebar::-webkit-scrollbar {
-        width: 4px;
+        width: 5px;
     }
 
     .sidebar::-webkit-scrollbar-track {
@@ -345,6 +347,10 @@
         background: #1e3a70;
 
         border-radius: 10px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #3b82f6;
     }
 
 
@@ -363,5 +369,4 @@
         }
 
     }
-
 </style>
