@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\InvitationGuestController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\InvitationGuestController as CustomerInvitationGuestController;
 use App\Http\Controllers\Customer\RSVPController as CustomerRSVPController;
+use App\Http\Controllers\Customer\InvitationController as CustomerInvitationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicInvitationController;
 use App\Http\Controllers\RSVPController;
@@ -194,6 +195,15 @@ Route::middleware(['auth', 'role:customer'])
             CustomerRSVPController::class,
             'index'
         ])->name('rsvp');
+
+        Route::get('/undangan-saya/tambah',[
+            CustomerInvitationController::class,
+            'create'
+        ])->name('invitations.create');
+        Route::post('/undangan-saya/tambah',[
+            CustomerInvitationController::class,
+            'store'
+        ])->name('invitations.store');
 
     });
 

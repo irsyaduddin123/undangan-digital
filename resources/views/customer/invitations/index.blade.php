@@ -1,86 +1,183 @@
+
 @extends('customer.layouts.app')
 
 @section('title', 'Undangan Saya')
 @section('page-heading', 'Undangan Saya')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/customer/invitations.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/customer/invitation.css') }}">
 @endpush
 
 @section('content')
 
-<div class="welcome-section">
-    <h2>Undangan Saya</h2>
-    <p>
-        Kelola dan lihat undangan pernikahan yang Anda miliki.
-    </p>
-</div>
+<div class="invitation-page">
 
-<div class="section-card">
+    {{-- Page Header --}}
+    <div class="invitation-hero">
+        <div class="hero-content">
+            <span class="hero-label">
+                <i class="fas fa-heart"></i>
+                WEDDING INVITATION
+            </span>
 
-    <div class="section-card-header">
-        <h5>Daftar Undangan</h5>
+            <h2>Undangan Saya</h2>
 
-        <span class="invitation-total">
-            {{ $invitations->count() }} Undangan
-        </span>
+            <p>
+                Kelola undangan pernikahan Anda dan bagikan
+                momen bahagia kepada orang-orang tersayang.
+            </p>
+        </div>
+
+        <div class="hero-decoration">
+            <i class="fas fa-envelope-open-text"></i>
+        </div>
     </div>
 
-    <div class="section-card-body">
+    {{-- Invitation Summary --}}
+    <div class="invitation-summary">
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+
+            <div class="summary-info">
+                <span>Total Undangan</span>
+                <h3>{{ $invitations->count() }}</h3>
+                <p>Undangan yang Anda miliki</p>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon active-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+
+            <div class="summary-info">
+                <span>Undangan Aktif</span>
+                <h3>
+                    {{ $invitations->where('status', 'active')->count() }}
+                </h3>
+                <p>Siap dibagikan kepada tamu</p>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon draft-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+
+            <div class="summary-info">
+                <span>Belum Aktif</span>
+                <h3>
+                    {{ $invitations->where('status', '!=', 'active')->count() }}
+                </h3>
+                <p>Undangan yang belum aktif</p>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- Invitation List --}}
+    <div class="invitation-panel">
+
+        <div class="panel-header">
+            <div>
+                <h4>Daftar Undangan</h4>
+                <p>Semua undangan pernikahan Anda</p>
+            </div>
+
+            <a href="{{ route('customer.invitations.create') }}"
+               class="btn-create-invitation">
+                <i class="fas fa-plus"></i>
+                <span>Buat Undangan</span>
+            </a>
+        </div>
+
+
+{{-- Invitation List --}}
+<div class="invitation-panel">
+
+    <div class="panel-header">
+        <div>
+            <h4>Undangan Saya</h4>
+            <p>Pilih undangan untuk melihat tampilannya.</p>
+        </div>
+
+        <a href="{{ route('customer.invitations.create') }}"
+           class="btn-create-invitation">
+            <i class="fas fa-plus"></i>
+            Buat Undangan
+        </a>
+    </div>
+
+    <div class="invitation-grid">
 
         @forelse ($invitations as $invitation)
 
-            <div class="invitation-item">
+            <div class="invitation-card">
 
-                <div class="invitation-info">
+                {{-- Preview Cover --}}
+                <a href="{{ route('invitation.show', ['invitation' => $invitation->slug]) }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="invitation-preview">
 
-                    <div class="invitation-icon">
-                        <i class="fas fa-envelope-open-text"></i>
-                    </div>
+                    @if ($invitation->cover_image)
+                        <img
+                            src="{{ asset('storage/' . $invitation->cover_image) }}"
+                            alt="Cover {{ $invitation->groom_name }} dan {{ $invitation->bride_name }}"
+                        >
+                    @else
+                        <div class="preview-placeholder">
+                            <i class="fas fa-heart"></i>
+                            <span>THE WEDDING OF</span>
+                            <h3>
+                                {{ $invitation->groom_name }}
+                                <br>&amp;<br>
+                                {{ $invitation->bride_name }}
+                            </h3>
+                        </div>
+                    @endif
 
-                    <div class="invitation-detail">
-                        <h6>
+                    <span class="preview-label">
+                        <i class="fas fa-eye"></i> Preview
+                    </span>
+
+                </a>
+
+                {{-- Informasi Undangan --}}
+                <div class="invitation-card-body">
+
+                    <div class="invitation-card-heading">
+                        <h5>
                             {{ $invitation->groom_name }}
                             &amp;
                             {{ $invitation->bride_name }}
-                        </h6>
+                        </h5>
 
-                        <p>
-                            <i class="far fa-calendar-alt"></i>
-
-                            {{ $invitation->wedding_date
-                                ? \Carbon\Carbon::parse($invitation->wedding_date)->format('d M Y')
-                                : 'Tanggal belum ditentukan' }}
-                        </p>
-
-                        <span class="status-badge">
+                        <span class="status-badge
+                            {{ $invitation->status === 'active'
+                                ? 'status-active'
+                                : 'status-inactive' }}">
                             {{ ucfirst($invitation->status) }}
                         </span>
                     </div>
 
-                </div>
+                    <p class="invitation-date">
+                        <i class="far fa-calendar-alt"></i>
+                        {{ $invitation->wedding_date
+                            ? \Carbon\Carbon::parse($invitation->wedding_date)->format('d M Y')
+                            : 'Tanggal belum ditentukan' }}
+                    </p>
 
-                <div class="invitation-actions">
-
-                    @if ($invitation->status === 'active')
-
-                        <a
-                            href="{{ route('invitation.show', ['invitation' => $invitation->slug]) }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="btn-view-invitation"
-                        >
-                            <i class="fas fa-external-link-alt"></i>
-                            Lihat Undangan
-                        </a>
-
-                    @else
-
-                        <span class="text-muted small">
-                            Undangan belum aktif
-                        </span>
-
-                    @endif
+                    <a href="{{ route('invitation.show', ['invitation' => $invitation->slug]) }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn-view-invitation">
+                        <i class="fas fa-external-link-alt"></i>
+                        Lihat Undangan
+                    </a>
 
                 </div>
 
@@ -89,19 +186,27 @@
         @empty
 
             <div class="empty-state">
-                <div class="empty-state-icon">
+                <div class="empty-illustration">
                     <i class="fas fa-envelope-open-text"></i>
                 </div>
 
-                <h5>Belum Ada Undangan</h5>
+                <h4>Belum Ada Undangan</h4>
 
-                <p>
-                    Anda belum memiliki undangan pernikahan.
-                    Undangan Anda akan muncul di halaman ini.
-                </p>
+                <p>Buat undangan pertama dan mulai persiapkan hari bahagia Anda.</p>
+
+                <a href="{{ route('customer.invitations.create') }}"
+                   class="btn-create-invitation">
+                    <i class="fas fa-plus"></i>
+                    Buat Undangan
+                </a>
             </div>
 
         @endforelse
+
+    </div>
+
+</div>
+
 
     </div>
 
