@@ -33,13 +33,6 @@ class InvitationController extends Controller
         );
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | CREATE
-    |--------------------------------------------------------------------------
-    */
-
     public function create()
     {
         $customers = User::where('role', 'customer')
@@ -52,19 +45,9 @@ class InvitationController extends Controller
 
         return view(
             'admin.invitations.create',
-            compact(
-                'customers',
-                'templates'
-            )
+            compact('customers', 'templates')
         );
     }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | STORE
-    |--------------------------------------------------------------------------
-    */
 
     public function store(Request $request)
     {
@@ -175,7 +158,7 @@ class InvitationController extends Controller
 
             'status' => [
                 'required',
-                'in:active,inactive'
+                'in:active,expired,draft'
             ],
 
             'expired_at' => [
@@ -186,12 +169,6 @@ class InvitationController extends Controller
         ]);
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | SLUG
-        |--------------------------------------------------------------------------
-        */
-
         $slug = $request->slug
             ? Str::slug($request->slug)
             : Str::slug(
@@ -201,16 +178,10 @@ class InvitationController extends Controller
             );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | COVER IMAGE
-        |--------------------------------------------------------------------------
-        */
 
         $coverImage = null;
 
         if ($request->hasFile('cover_image')) {
-
             $coverImage = $request
                 ->file('cover_image')
                 ->store(
@@ -220,16 +191,9 @@ class InvitationController extends Controller
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | MUSIC
-        |--------------------------------------------------------------------------
-        */
-
         $music = null;
 
         if ($request->hasFile('music')) {
-
             $music = $request
                 ->file('music')
                 ->store(
@@ -238,28 +202,26 @@ class InvitationController extends Controller
                 );
         }
 
-        /*love stroy*/
+
 
         $groomPhoto = null;
 
         if ($request->hasFile('groom_photo')) {
-            $groomPhoto = $request->file('groom_photo')
+            $groomPhoto = $request
+                ->file('groom_photo')
                 ->store('invitations/couple', 'public');
         }
+
 
         $bridePhoto = null;
 
         if ($request->hasFile('bride_photo')) {
-            $bridePhoto = $request->file('bride_photo')
+            $bridePhoto = $request
+                ->file('bride_photo')
                 ->store('invitations/couple', 'public');
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | CREATE INVITATION
-        |--------------------------------------------------------------------------
-        */
 
         Invitation::create([
 
@@ -305,7 +267,6 @@ class InvitationController extends Controller
 
         ]);
 
-
         return redirect()
             ->route('admin.invitations.index')
             ->with(
@@ -315,11 +276,6 @@ class InvitationController extends Controller
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | EDIT
-    |--------------------------------------------------------------------------
-    */
 
     public function edit(Invitation $invitation)
     {
@@ -342,17 +298,10 @@ class InvitationController extends Controller
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | UPDATE
-    |--------------------------------------------------------------------------
-    */
-
     public function update(
         Request $request,
         Invitation $invitation
     ) {
-
         $request->validate([
 
             'user_id' => [
@@ -460,7 +409,7 @@ class InvitationController extends Controller
 
             'status' => [
                 'required',
-                'in:active,inactive'
+                'in:active,expired,draft'
             ],
 
             'expired_at' => [
@@ -471,12 +420,6 @@ class InvitationController extends Controller
         ]);
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | SLUG
-        |--------------------------------------------------------------------------
-        */
-
         $slug = $request->slug
             ? Str::slug($request->slug)
             : Str::slug(
@@ -486,28 +429,19 @@ class InvitationController extends Controller
             );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | COVER IMAGE
-        |--------------------------------------------------------------------------
-        */
-
         $coverImage = $invitation->cover_image;
 
         if ($request->hasFile('cover_image')) {
 
             if (
                 $invitation->cover_image &&
-                Storage::disk('public')
-                    ->exists(
-                        $invitation->cover_image
-                    )
+                Storage::disk('public')->exists(
+                    $invitation->cover_image
+                )
             ) {
-
-                Storage::disk('public')
-                    ->delete(
-                        $invitation->cover_image
-                    );
+                Storage::disk('public')->delete(
+                    $invitation->cover_image
+                );
             }
 
             $coverImage = $request
@@ -519,11 +453,6 @@ class InvitationController extends Controller
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | MUSIC
-        |--------------------------------------------------------------------------
-        */
 
         $music = $invitation->music;
 
@@ -531,16 +460,13 @@ class InvitationController extends Controller
 
             if (
                 $invitation->music &&
-                Storage::disk('public')
-                    ->exists(
-                        $invitation->music
-                    )
+                Storage::disk('public')->exists(
+                    $invitation->music
+                )
             ) {
-
-                Storage::disk('public')
-                    ->delete(
-                        $invitation->music
-                    );
+                Storage::disk('public')->delete(
+                    $invitation->music
+                );
             }
 
             $music = $request
@@ -551,50 +477,50 @@ class InvitationController extends Controller
                 );
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | GROOM PHOTO
-        |--------------------------------------------------------------------------
-        */
+
 
         $groomPhoto = $invitation->groom_photo;
 
         if ($request->hasFile('groom_photo')) {
+
             if (
                 $invitation->groom_photo &&
-                Storage::disk('public')->exists($invitation->groom_photo)
+                Storage::disk('public')->exists(
+                    $invitation->groom_photo
+                )
             ) {
                 Storage::disk('public')->delete(
                     $invitation->groom_photo
                 );
             }
 
-            $groomPhoto = $request->file('groom_photo')
+            $groomPhoto = $request
+                ->file('groom_photo')
                 ->store('invitations/couple', 'public');
         }
+
+
 
         $bridePhoto = $invitation->bride_photo;
 
         if ($request->hasFile('bride_photo')) {
+
             if (
                 $invitation->bride_photo &&
-                Storage::disk('public')->exists($invitation->bride_photo)
+                Storage::disk('public')->exists(
+                    $invitation->bride_photo
+                )
             ) {
                 Storage::disk('public')->delete(
                     $invitation->bride_photo
                 );
             }
 
-            $bridePhoto = $request->file('bride_photo')
+            $bridePhoto = $request
+                ->file('bride_photo')
                 ->store('invitations/couple', 'public');
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | UPDATE
-        |--------------------------------------------------------------------------
-        */
 
         $invitation->update([
 
@@ -609,7 +535,7 @@ class InvitationController extends Controller
             'bride_name' => $request->bride_name,
 
             'groom_photo' => $groomPhoto,
-            
+
             'bride_photo' => $bridePhoto,
 
             'groom_profile' => $request->groom_profile,
@@ -640,7 +566,6 @@ class InvitationController extends Controller
 
         ]);
 
-
         return redirect()
             ->route('admin.invitations.index')
             ->with(
@@ -650,46 +575,35 @@ class InvitationController extends Controller
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | DESTROY
-    |--------------------------------------------------------------------------
-    */
-
     public function destroy(Invitation $invitation)
     {
         if (
             $invitation->cover_image &&
-            Storage::disk('public')
-                ->exists(
-                    $invitation->cover_image
-                )
+            Storage::disk('public')->exists(
+                $invitation->cover_image
+            )
         ) {
-
-            Storage::disk('public')
-                ->delete(
-                    $invitation->cover_image
-                );
+            Storage::disk('public')->delete(
+                $invitation->cover_image
+            );
         }
-
 
         if (
             $invitation->music &&
-            Storage::disk('public')
-                ->exists(
-                    $invitation->music
-                )
+            Storage::disk('public')->exists(
+                $invitation->music
+            )
         ) {
-
-            Storage::disk('public')
-                ->delete(
-                    $invitation->music
-                );
+            Storage::disk('public')->delete(
+                $invitation->music
+            );
         }
 
         if (
             $invitation->groom_photo &&
-            Storage::disk('public')->exists($invitation->groom_photo)
+            Storage::disk('public')->exists(
+                $invitation->groom_photo
+            )
         ) {
             Storage::disk('public')->delete(
                 $invitation->groom_photo
@@ -698,16 +612,16 @@ class InvitationController extends Controller
 
         if (
             $invitation->bride_photo &&
-            Storage::disk('public')->exists($invitation->bride_photo)
+            Storage::disk('public')->exists(
+                $invitation->bride_photo
+            )
         ) {
             Storage::disk('public')->delete(
                 $invitation->bride_photo
             );
         }
 
-
         $invitation->delete();
-
 
         return redirect()
             ->route('admin.invitations.index')

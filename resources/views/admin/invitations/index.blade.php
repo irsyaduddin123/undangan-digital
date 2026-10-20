@@ -52,6 +52,7 @@
                             <th>Customer</th>
                             <th>Template</th>
                             <th>Tanggal</th>
+                            <th>Expired Tanggal</th>
                             <th>Status</th>
                             <th width="150">Aksi</th>
                         </tr>
@@ -137,6 +138,13 @@
                                     -
                                 @endif
 
+                            </td>
+
+                            <td>
+                                @if ($invitation->expired_at)
+                                {{ $invitation->expired_at->format('d M Y') }}
+                                    
+                                @endif
                             </td>
 
 

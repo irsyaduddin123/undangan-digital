@@ -35,6 +35,27 @@ class invitation extends Model
         'expired_at',
     ];
 
+    protected static function booted(): void
+    {
+        static::retrieved(function (Invitation $invitation) {
+
+            if (
+                $invitation->status === 'active' &&
+                $invitation->expired_at &&
+                now()->startOfDay()->gt(
+                    \Illuminate\Support\Carbon::parse(
+                        $invitation->expired_at
+                    )->startOfDay()
+                )
+            ) {
+                $invitation->updateQuietly([
+                    'status' => 'expired',
+                ]);
+            }
+
+        });
+    }
+
     protected $casts = [
         'wedding_date' => 'date',
         'akad_date' => 'datetime',

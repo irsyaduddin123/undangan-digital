@@ -4,901 +4,730 @@
 
 @section('content')
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="card border-0 shadow-sm">
+        <div class="card border-0 shadow-sm">
 
-        <div class="card-header bg-white py-3">
+            <div class="card-header bg-white py-3">
 
-            <h5 class="mb-0">
+                <h5 class="mb-0">
 
-                <i class="bi bi-pencil-square me-2"></i>
+                    <i class="bi bi-pencil-square me-2"></i>
 
-                Edit Undangan
+                    Edit Undangan
 
-            </h5>
+                </h5>
 
-        </div>
+            </div>
 
 
-        <form
-            action="{{ route('admin.invitations.update', $invitation) }}"
-            method="POST"
-            enctype="multipart/form-data"
-        >
+            <form action="{{ route('admin.invitations.update', $invitation) }}" method="POST" enctype="multipart/form-data">
 
-            @csrf
+                @csrf
 
-            @method('PUT')
+                @method('PUT')
 
 
-            <div class="card-body">
+                <div class="card-body">
 
-                {{-- ERROR --}}
-                @if($errors->any())
+                    {{-- ERROR --}}
+                    @if ($errors->any())
 
-                    <div class="alert alert-danger">
+                        <div class="alert alert-danger">
 
-                        <strong>
-                            Terdapat kesalahan:
-                        </strong>
+                            <strong>
+                                Terdapat kesalahan:
+                            </strong>
 
-                        <ul class="mb-0 mt-2">
+                            <ul class="mb-0 mt-2">
 
-                            @foreach($errors->all() as $error)
+                                @foreach ($errors->all() as $error)
+                                    <li>
+                                        {{ $error }}
+                                    </li>
+                                @endforeach
 
-                                <li>
-                                    {{ $error }}
-                                </li>
-
-                            @endforeach
-
-                        </ul>
-
-                    </div>
-
-                @endif
-
-
-                {{-- CUSTOMER & TEMPLATE --}}
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Customer
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <select
-                            name="user_id"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                -- Pilih Customer --
-                            </option>
-
-                            @foreach($customers as $customer)
-
-                                <option
-                                    value="{{ $customer->id }}"
-                                    {{ old('user_id', $invitation->user_id) == $customer->id ? 'selected' : '' }}
-                                >
-                                    {{ $customer->name }}
-                                    -
-                                    {{ $customer->email }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Template
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <select
-                            name="template_id"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                -- Pilih Template --
-                            </option>
-
-                            @foreach($templates as $template)
-
-                                <option
-                                    value="{{ $template->id }}"
-                                    {{ old('template_id', $invitation->template_id) == $template->id ? 'selected' : '' }}
-                                >
-                                    {{ $template->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                {{-- NAMA MEMPELAI --}}
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Nama Mempelai Pria
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <input
-                            type="text"
-                            name="groom_name"
-                            class="form-control"
-                            value="{{ old('groom_name', $invitation->groom_name) }}"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Nama Mempelai Wanita
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <input
-                            type="text"
-                            name="bride_name"
-                            class="form-control"
-                            value="{{ old('bride_name', $invitation->bride_name) }}"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                {{-- SLUG --}}
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Slug Undangan
-                    </label>
-
-                    <input
-                        type="text"
-                        name="slug"
-                        id="slug"
-                        class="form-control"
-                        value="{{ old('slug', $invitation->slug) }}"
-                    >
-
-                </div>
-
-
-                {{-- TANGGAL --}}
-                <div class="row">
-
-                    <div class="col-md-4 mb-3">
-
-                        <label class="form-label">
-                            Tanggal Pernikahan
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <input
-                            type="date"
-                            name="wedding_date"
-                            class="form-control"
-                            value="{{ old(
-                                'wedding_date',
-                                $invitation->wedding_date?->format('Y-m-d')
-                            ) }}"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="col-md-4 mb-3">
-
-                        <label class="form-label">
-                            Akad Nikah
-                        </label>
-
-                        <input
-                            type="datetime-local"
-                            name="akad_date"
-                            class="form-control"
-                            value="{{ old(
-                                'akad_date',
-                                $invitation->akad_date?->format('Y-m-d\TH:i')
-                            ) }}"
-                        >
-
-                    </div>
-
-
-                    <div class="col-md-4 mb-3">
-
-                        <label class="form-label">
-                            Resepsi
-                        </label>
-
-                        <input
-                            type="datetime-local"
-                            name="reception_date"
-                            class="form-control"
-                            value="{{ old(
-                                'reception_date',
-                                $invitation->reception_date?->format('Y-m-d\TH:i')
-                            ) }}"
-                        >
-
-                    </div>
-
-                </div>
-
-                <div class="card border-0 shadow-sm mt-4">
-                    <div class="card-header bg-white">
-                        <h5 class="mb-0">
-                            <i class="bi bi-heart me-2"></i>
-                            Profil Mempelai
-                        </h5>
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            {{-- Mempelai Pria --}}
-                            <div class="col-md-6 mb-4">
-
-                                <h6 class="fw-bold mb-3">
-                                    Mempelai Pria
-                                </h6>
-
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        Foto Mempelai Pria
-                                    </label>
-
-                                    <input
-                                        type="file"
-                                        name="groom_photo"
-                                        id="groom_photo"
-                                        class="form-control"
-                                        accept="image/*"
-                                    >
-
-                                    @if($invitation->groom_photo)
-                                        <div class="mt-3">
-                                            <img
-                                            id="groomPhotoPreview"
-                                                src="{{ asset('storage/' . $invitation->groom_photo) }}"
-                                                class="img-fluid rounded"
-                                                style="max-height:250px;"
-                                                alt="Foto Mempelai Pria"
-                                            >
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        Profil Mempelai Pria
-                                    </label>
-
-                                    <textarea
-                                        name="groom_profile"
-                                        class="form-control"
-                                        rows="5"
-                                    >{{ old('groom_profile', $invitation->groom_profile) }}</textarea>
-                                </div>
-
-                            </div>
-
-                            {{-- Mempelai Wanita --}}
-                            <div class="col-md-6 mb-4">
-
-                                <h6 class="fw-bold mb-3">
-                                    Mempelai Wanita
-                                </h6>
-
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        Foto Mempelai Wanita
-                                    </label>
-
-                                    <input
-                                        type="file"
-                                        name="bride_photo"
-                                        id="bride_photo"
-                                        class="form-control"
-                                        accept="image/*"
-                                    >
-
-                                @if($invitation->bride_photo)
-                                    <div class="mt-3">
-                                        <img
-                                        id="bridePhotoPreview"
-                                            src="{{ asset('storage/' . $invitation->bride_photo) }}"
-                                            class="img-fluid rounded"
-                                            style="max-height:250px;"
-                                            alt="Foto Mempelai Wanita"
-                                        >
-                                    </div>
-                                @endif
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        Profil Mempelai Wanita
-                                    </label>
-
-                                    <textarea
-                                        name="bride_profile"
-                                        class="form-control"
-                                        rows="5"
-                                    >{{ old('bride_profile', $invitation->bride_profile) }}</textarea>
-                                </div>
-
-                            </div>
+                            </ul>
 
                         </div>
 
-                        <hr>
+                    @endif
 
-                        <div class="mb-3">
+
+                    {{-- CUSTOMER & TEMPLATE --}}
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
                             <label class="form-label">
-                                Love Story
+                                Customer
+                                <span class="text-danger">*</span>
                             </label>
 
-                            <textarea
-                                name="love_story"
-                                class="form-control"
-                                rows="7"
-                            >{{ old('love_story', $invitation->love_story) }}</textarea>
+                            <select name="user_id" class="form-select" required>
+
+                                <option value="">
+                                    -- Pilih Customer --
+                                </option>
+
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}"
+                                        {{ old('user_id', $invitation->user_id) == $customer->id ? 'selected' : '' }}>
+                                        {{ $customer->name }}
+                                        -
+                                        {{ $customer->email }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Template
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <select name="template_id" class="form-select" required>
+
+                                <option value="">
+                                    -- Pilih Template --
+                                </option>
+
+                                @foreach ($templates as $template)
+                                    <option value="{{ $template->id }}"
+                                        {{ old('template_id', $invitation->template_id) == $template->id ? 'selected' : '' }}>
+                                        {{ $template->name }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
                         </div>
 
                     </div>
-                </div>
+
+
+                    {{-- NAMA MEMPELAI --}}
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Nama Mempelai Pria
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text" name="groom_name" class="form-control"
+                                value="{{ old('groom_name', $invitation->groom_name) }}" required>
+
+                        </div>
+
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Nama Mempelai Wanita
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text" name="bride_name" class="form-control"
+                                value="{{ old('bride_name', $invitation->bride_name) }}" required>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- SLUG --}}
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Slug Undangan
+                        </label>
+
+                        <input type="text" name="slug" id="slug" class="form-control"
+                            value="{{ old('slug', $invitation->slug) }}">
+
+                    </div>
+
+
+                    {{-- TANGGAL --}}
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label">
+                                Tanggal Pernikahan
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="date" name="wedding_date" class="form-control"
+                                value="{{ old('wedding_date', $invitation->wedding_date?->format('Y-m-d')) }}"
+                                required>
+
+                        </div>
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label">
+                                Akad Nikah
+                            </label>
+
+                            <input type="datetime-local" name="akad_date" class="form-control"
+                                value="{{ old('akad_date', $invitation->akad_date?->format('Y-m-d\TH:i')) }}">
+
+                        </div>
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label">
+                                Resepsi
+                            </label>
+
+                            <input type="datetime-local" name="reception_date" class="form-control"
+                                value="{{ old('reception_date', $invitation->reception_date?->format('Y-m-d\TH:i')) }}">
+
+                        </div>
+
+                    </div>
+
+                    <div class="card border-0 shadow-sm mt-4">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">
+                                <i class="bi bi-heart me-2"></i>
+                                Profil Mempelai
+                            </h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                {{-- Mempelai Pria --}}
+                                <div class="col-md-6 mb-4">
+
+                                    <h6 class="fw-bold mb-3">
+                                        Mempelai Pria
+                                    </h6>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Foto Mempelai Pria
+                                        </label>
+
+                                        <input type="file" name="groom_photo" id="groom_photo" class="form-control"
+                                            accept="image/*">
+
+                                        @if ($invitation->groom_photo)
+                                            <div class="mt-3">
+                                                <img id="groomPhotoPreview"
+                                                    src="{{ asset('storage/' . $invitation->groom_photo) }}"
+                                                    class="img-fluid rounded" style="max-height:250px;"
+                                                    alt="Foto Mempelai Pria">
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Profil Mempelai Pria
+                                        </label>
+
+                                        <textarea name="groom_profile" class="form-control" rows="5">{{ old('groom_profile', $invitation->groom_profile) }}</textarea>
+                                    </div>
+
+                                </div>
+
+                                {{-- Mempelai Wanita --}}
+                                <div class="col-md-6 mb-4">
+
+                                    <h6 class="fw-bold mb-3">
+                                        Mempelai Wanita
+                                    </h6>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Foto Mempelai Wanita
+                                        </label>
+
+                                        <input type="file" name="bride_photo" id="bride_photo" class="form-control"
+                                            accept="image/*">
+
+                                        @if ($invitation->bride_photo)
+                                            <div class="mt-3">
+                                                <img id="bridePhotoPreview"
+                                                    src="{{ asset('storage/' . $invitation->bride_photo) }}"
+                                                    class="img-fluid rounded" style="max-height:250px;"
+                                                    alt="Foto Mempelai Wanita">
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Profil Mempelai Wanita
+                                        </label>
+
+                                        <textarea name="bride_profile" class="form-control" rows="5">{{ old('bride_profile', $invitation->bride_profile) }}</textarea>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Love Story
+                                </label>
+
+                                <textarea name="love_story" class="form-control" rows="7">{{ old('love_story', $invitation->love_story) }}</textarea>
+                            </div>
+
+                        </div>
+                    </div>
 
 
 
-                {{-- =====================================================
+                    {{-- =====================================================
                      LOKASI
                 ====================================================== --}}
 
-                <hr class="my-4">
+                    <hr class="my-4">
 
-                <h5 class="mb-3">
+                    <h5 class="mb-3">
 
-                    <i class="bi bi-geo-alt me-2"></i>
+                        <i class="bi bi-geo-alt me-2"></i>
 
-                    Lokasi Acara
+                        Lokasi Acara
 
-                </h5>
-
-
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Nama Lokasi
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <input
-                            type="text"
-                            name="location_name"
-                            id="location_name"
-                            class="form-control"
-                            value="{{ old(
-                                'location_name',
-                                $invitation->location_name
-                            ) }}"
-                            required
-                        >
-
-                    </div>
+                    </h5>
 
 
-                    <div class="col-md-6 mb-3">
+                    <div class="row">
 
-                        <label class="form-label">
-                            Alamat Lengkap
-                        </label>
+                        <div class="col-md-6 mb-3">
 
-                        <textarea
-                            name="address"
-                            id="address"
-                            class="form-control"
-                            rows="2"
-                        >{{ old(
-                            'address',
-                            $invitation->address
-                        ) }}</textarea>
+                            <label class="form-label">
+                                Nama Lokasi
+                                <span class="text-danger">*</span>
+                            </label>
 
-                    </div>
+                            <input type="text" name="location_name" id="location_name" class="form-control"
+                                value="{{ old('location_name', $invitation->location_name) }}"
+                                required>
 
-                </div>
+                        </div>
 
 
-                {{-- GOOGLE MAPS --}}
-                <div class="mb-3">
+                        <div class="col-md-6 mb-3">
 
-                    <label class="form-label">
-                        Link Google Maps
-                    </label>
+                            <label class="form-label">
+                                Alamat Lengkap
+                            </label>
 
-                    <input
-                        type="url"
-                        name="google_maps"
-                        id="google_maps"
-                        class="form-control"
-                        value="{{ old(
-                            'google_maps',
-                            $invitation->google_maps
-                        ) }}"
-                        placeholder="https://maps.google.com/..."
-                    >
-
-                    <div class="form-text">
-
-                        Buka Google Maps → pilih lokasi →
-                        <strong>Bagikan</strong> →
-                        <strong>Salin link</strong>.
-
-                    </div>
-
-                </div>
-
-
-                {{-- MAP PREVIEW --}}
-                <div class="mb-4">
-
-                    <label class="form-label">
-                        Preview Lokasi
-                    </label>
-
-                    <div
-                        id="mapPreview"
-                        class="map-preview"
-                    ></div>
-
-                </div>
-
-
-                {{-- MEDIA --}}
-                <hr class="my-4">
-
-                <h5 class="mb-3">
-
-                    <i class="bi bi-image me-2"></i>
-
-                    Media Undangan
-
-                </h5>
-
-
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Cover Image
-                        </label>
-
-                        <input
-                            type="file"
-                            name="cover_image"
-                            id="cover_image"
-                            class="form-control"
-                            accept=".jpg,.jpeg,.png,.webp"
-                        >
-
-
-                        @if($invitation->cover_image)
-
-                            <div class="mt-3">
-
-                                <p class="text-muted mb-2">
-                                    Cover saat ini:
-                                </p>
-
-                                <img
-                                    src="{{ asset(
-                                        'storage/' .
-                                        $invitation->cover_image
-                                    ) }}"
-                                    class="img-fluid rounded"
-                                    style="max-height:250px;"
-                                >
-
-                            </div>
-
-                        @endif
-
-
-                        <div class="mt-3">
-
-                            <img
-                                id="coverPreview"
-                                src=""
-                                class="img-fluid rounded d-none"
-                                style="max-height:250px;"
-                            >
+                            <textarea name="address" id="address" class="form-control" rows="2">{{ old('address', $invitation->address) }}</textarea>
 
                         </div>
 
                     </div>
 
 
-                    <div class="col-md-6 mb-3">
+                    {{-- GOOGLE MAPS --}}
+                    <div class="mb-3">
 
                         <label class="form-label">
-                            Musik
+                            Link Google Maps
                         </label>
 
-                        <input
-                            type="file"
-                            name="music"
-                            class="form-control"
-                            accept=".mp3,.wav,.ogg"
-                        >
+                        <input type="url" name="google_maps" id="google_maps" class="form-control"
+                            value="{{ old('google_maps', $invitation->google_maps) }}"
+                            placeholder="https://maps.google.com/...">
+
+                        <div class="form-text">
+
+                            Buka Google Maps → pilih lokasi →
+                            <strong>Bagikan</strong> →
+                            <strong>Salin link</strong>.
+
+                        </div>
+
+                    </div>
 
 
-                        @if($invitation->music)
+                    {{-- MAP PREVIEW --}}
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Preview Lokasi
+                        </label>
+
+                        <div id="mapPreview" class="map-preview"></div>
+
+                    </div>
+
+
+                    {{-- MEDIA --}}
+                    <hr class="my-4">
+
+                    <h5 class="mb-3">
+
+                        <i class="bi bi-image me-2"></i>
+
+                        Media Undangan
+
+                    </h5>
+
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Cover Image
+                            </label>
+
+                            <input type="file" name="cover_image" id="cover_image" class="form-control"
+                                accept=".jpg,.jpeg,.png,.webp">
+
+
+                            @if ($invitation->cover_image)
+                                <div class="mt-3">
+
+                                    <p class="text-muted mb-2">
+                                        Cover saat ini:
+                                    </p>
+
+                                    <img src="{{ asset('storage/' . $invitation->cover_image) }}"
+                                        class="img-fluid rounded" style="max-height:250px;">
+
+                                </div>
+                            @endif
+
 
                             <div class="mt-3">
 
-                                <audio
-                                    controls
-                                    class="w-100"
-                                >
-
-                                    <source
-                                        src="{{ asset(
-                                            'storage/' .
-                                            $invitation->music
-                                        ) }}"
-                                    >
-
-                                </audio>
+                                <img id="coverPreview" src="" class="img-fluid rounded d-none"
+                                    style="max-height:250px;">
 
                             </div>
 
-                        @endif
+                        </div>
+
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Musik
+                            </label>
+
+                            <input type="file" name="music" class="form-control" accept=".mp3,.wav,.ogg">
+
+
+                            @if ($invitation->music)
+                                <div class="mt-3">
+
+                                    <audio controls class="w-100">
+
+                                        <source
+                                            src="{{ asset('storage/' . $invitation->music) }}">
+
+                                    </audio>
+
+                                </div>
+                            @endif
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- STATUS --}}
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Status
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <select name="status" class="form-select" required>
+
+                                <option value="active"
+                                    {{ old('status', $invitation->status) == 'active' ? 'selected' : '' }}>
+                                    Active
+                                </option>
+
+                                <option value="expired"
+                                    {{ old('status', $invitation->status) == 'expired' ? 'selected' : '' }}>
+                                    Expired
+                                </option>
+
+                                <option value="draft"
+                                    {{ old('status', $invitation->status) == 'draft' ? 'selected' : '' }}>
+                                    Draft
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Expired
+                            </label>
+
+                            <input type="datetime-local" name="expired_at" class="form-control"
+                                value="{{ old('expired_at', $invitation->expired_at?->format('Y-m-d\TH:i')) }}">
+
+                        </div>
 
                     </div>
 
                 </div>
 
 
-                {{-- STATUS --}}
-                <div class="row">
+                <div class="card-footer bg-white d-flex justify-content-end gap-2">
 
-                    <div class="col-md-6 mb-3">
+                    <a href="{{ route('admin.invitations.index') }}" class="btn btn-secondary">
+                        Batal
+                    </a>
 
-                        <label class="form-label">
-                            Status
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <select
-                            name="status"
-                            class="form-select"
-                            required
-                        >
-
-                            <option
-                                value="active"
-                                {{ old(
-                                    'status',
-                                    $invitation->status
-                                ) == 'active' ? 'selected' : '' }}
-                            >
-                                Active
-                            </option>
-
-                            <option
-                                value="inactive"
-                                {{ old(
-                                    'status',
-                                    $invitation->status
-                                ) == 'inactive' ? 'selected' : '' }}
-                            >
-                                Inactive
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Expired
-                        </label>
-
-                        <input
-                            type="datetime-local"
-                            name="expired_at"
-                            class="form-control"
-                            value="{{ old(
-                                'expired_at',
-                                $invitation->expired_at?->format('Y-m-d\TH:i')
-                            ) }}"
-                        >
-
-                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>
+                        Update Undangan
+                    </button>
 
                 </div>
 
-            </div>
+            </form>
 
-
-            <div class="card-footer bg-white d-flex justify-content-end gap-2">
-
-                <a
-                    href="{{ route('admin.invitations.index') }}"
-                    class="btn btn-secondary"
-                >
-                    Batal
-                </a>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    <i class="bi bi-save me-1"></i>
-                    Update Undangan
-                </button>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
 
-</div>
 
+    <style>
+        .map-preview {
+            width: 100%;
+            height: 400px;
+            background: #f1f1f1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #dee2e6;
+        }
 
-<style>
+        .map-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
 
-.map-preview {
-    width: 100%;
-    height: 400px;
-    background: #f1f1f1;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #dee2e6;
-}
+        .map-empty {
+            height: 100%;
 
-.map-preview iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
+            display: flex;
+            flex-direction: column;
 
-.map-empty {
-    height: 100%;
+            align-items: center;
+            justify-content: center;
 
-    display: flex;
-    flex-direction: column;
+            text-align: center;
 
-    align-items: center;
-    justify-content: center;
+            color: #6c757d;
+        }
 
-    text-align: center;
-
-    color: #6c757d;
-}
-
-.map-empty i {
-    font-size: 45px;
-    margin-bottom: 10px;
-}
-
-</style>
+        .map-empty i {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+    </style>
 
 @endsection
 
 
 @push('scripts')
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function () {
-
-        /*
-    |--------------------------------------------------------------------------
-    | AUTO SLUG
-    |--------------------------------------------------------------------------
-    */
-
-    const groomInput =
-        document.querySelector('[name="groom_name"]');
-
-    const brideInput =
-        document.querySelector('[name="bride_name"]');
-
-    const slugInput =
-        document.getElementById('slug');
-
-    let slugManual = false;
-
-
-    function generateSlug(text) {
-
-        return text
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-');
-
-    }
-
-
-    function updateSlug() {
-
-        // Jika slug sudah diedit manual,
-        // jangan ubah otomatis
-        if (slugManual) {
-            return;
-        }
-
-
-        const groom =
-            groomInput.value.trim();
-
-        const bride =
-            brideInput.value.trim();
-
-
-        if (!groom && !bride) {
-
-            slugInput.value = '';
-
-            return;
-
-        }
-
-
-        const names =
-            [groom, bride]
-                .filter(Boolean)
-                .join(' ');
-
-
-        slugInput.value =
-            generateSlug(names);
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | NAMA MEMPELAI
-    |--------------------------------------------------------------------------
-    */
-
-    groomInput.addEventListener(
-        'input',
-        updateSlug
-    );
-
-    brideInput.addEventListener(
-        'input',
-        updateSlug
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | SLUG MANUAL
-    |--------------------------------------------------------------------------
-    */
-
-    slugInput.addEventListener(
-        'input',
-        function () {
-
-            const groom =
-                groomInput.value.trim();
-
-            const bride =
-                brideInput.value.trim();
-
-
-            const automaticSlug =
-                generateSlug(
-                    [groom, bride]
-                        .filter(Boolean)
-                        .join(' ')
-                );
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
             /*
-            | Jika berbeda dari slug otomatis,
-            | berarti user mengubah manual
-            */
+        |--------------------------------------------------------------------------
+        | AUTO SLUG
+        |--------------------------------------------------------------------------
+        */
 
-            if (
-                slugInput.value !== automaticSlug
-            ) {
+            const groomInput =
+                document.querySelector('[name="groom_name"]');
 
-                slugManual = true;
+            const brideInput =
+                document.querySelector('[name="bride_name"]');
+
+            const slugInput =
+                document.getElementById('slug');
+
+            let slugManual = false;
+
+
+            function generateSlug(text) {
+
+                return text
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-');
+
+            }
+
+
+            function updateSlug() {
+
+                // Jika slug sudah diedit manual,
+                // jangan ubah otomatis
+                if (slugManual) {
+                    return;
+                }
+
+
+                const groom =
+                    groomInput.value.trim();
+
+                const bride =
+                    brideInput.value.trim();
+
+
+                if (!groom && !bride) {
+
+                    slugInput.value = '';
+
+                    return;
+
+                }
+
+
+                const names = [groom, bride]
+                    .filter(Boolean)
+                    .join(' ');
+
+
+                slugInput.value =
+                    generateSlug(names);
 
             }
 
 
             /*
-            | Jika dikosongkan,
-            | aktifkan kembali auto slug
+            |--------------------------------------------------------------------------
+            | NAMA MEMPELAI
+            |--------------------------------------------------------------------------
             */
 
-            if (
-                slugInput.value.trim() === ''
-            ) {
+            groomInput.addEventListener(
+                'input',
+                updateSlug
+            );
 
-                slugManual = false;
-
-                updateSlug();
-
-            }
-
-        }
-    );
-    
-    /*
-    |--------------------------------------------------------------------------
-    | MAP PREVIEW
-    |--------------------------------------------------------------------------
-    */
-
-    const locationInput =
-        document.getElementById('location_name');
-
-    const addressInput =
-        document.getElementById('address');
-
-    const mapPreview =
-        document.getElementById('mapPreview');
+            brideInput.addEventListener(
+                'input',
+                updateSlug
+            );
 
 
-    function updateMap() {
+            /*
+            |--------------------------------------------------------------------------
+            | SLUG MANUAL
+            |--------------------------------------------------------------------------
+            */
 
-        const location =
-            locationInput.value.trim();
+            slugInput.addEventListener(
+                'input',
+                function() {
 
-        const address =
-            addressInput.value.trim();
+                    const groom =
+                        groomInput.value.trim();
+
+                    const bride =
+                        brideInput.value.trim();
 
 
-        if (!location && !address) {
+                    const automaticSlug =
+                        generateSlug(
+                            [groom, bride]
+                            .filter(Boolean)
+                            .join(' ')
+                        );
 
-            mapPreview.innerHTML = `
+
+                    /*
+                    | Jika berbeda dari slug otomatis,
+                    | berarti user mengubah manual
+                    */
+
+                    if (
+                        slugInput.value !== automaticSlug
+                    ) {
+
+                        slugManual = true;
+
+                    }
+
+
+                    /*
+                    | Jika dikosongkan,
+                    | aktifkan kembali auto slug
+                    */
+
+                    if (
+                        slugInput.value.trim() === ''
+                    ) {
+
+                        slugManual = false;
+
+                        updateSlug();
+
+                    }
+
+                }
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | MAP PREVIEW
+            |--------------------------------------------------------------------------
+            */
+
+            const locationInput =
+                document.getElementById('location_name');
+
+            const addressInput =
+                document.getElementById('address');
+
+            const mapPreview =
+                document.getElementById('mapPreview');
+
+
+            function updateMap() {
+
+                const location =
+                    locationInput.value.trim();
+
+                const address =
+                    addressInput.value.trim();
+
+
+                if (!location && !address) {
+
+                    mapPreview.innerHTML = `
                 <div class="map-empty">
 
                     <i class="bi bi-geo-alt"></i>
@@ -911,27 +740,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             `;
 
-            return;
-        }
+                    return;
+                }
 
 
-        let query = location;
+                let query = location;
 
 
-        if (address) {
+                if (address) {
 
-            query += ', ' + address;
+                    query += ', ' + address;
 
-        }
-
-
-        const embedUrl =
-            'https://www.google.com/maps?q=' +
-            encodeURIComponent(query) +
-            '&output=embed';
+                }
 
 
-        mapPreview.innerHTML = `
+                const embedUrl =
+                    'https://www.google.com/maps?q=' +
+                    encodeURIComponent(query) +
+                    '&output=embed';
+
+
+                mapPreview.innerHTML = `
 
             <iframe
                 src="${embedUrl}"
@@ -942,118 +771,116 @@ document.addEventListener('DOMContentLoaded', function () {
 
         `;
 
-    }
-
-
-    locationInput.addEventListener(
-        'input',
-        updateMap
-    );
-
-    addressInput.addEventListener(
-        'input',
-        updateMap
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOAD EXISTING MAP
-    |--------------------------------------------------------------------------
-    */
-
-    updateMap();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | COVER PREVIEW
-    |--------------------------------------------------------------------------
-    */
-
-    const coverInput =
-        document.getElementById('cover_image');
-
-    const coverPreview =
-        document.getElementById('coverPreview');
-
-
-    coverInput.addEventListener(
-        'change',
-        function (event) {
-
-            const file =
-                event.target.files[0];
-
-            if (!file) {
-
-                coverPreview.classList.add(
-                    'd-none'
-                );
-
-                return;
             }
 
 
-            const reader =
-                new FileReader();
+            locationInput.addEventListener(
+                'input',
+                updateMap
+            );
+
+            addressInput.addEventListener(
+                'input',
+                updateMap
+            );
 
 
-            reader.onload =
-                function (e) {
+            /*
+            |--------------------------------------------------------------------------
+            | LOAD EXISTING MAP
+            |--------------------------------------------------------------------------
+            */
 
-                    coverPreview.src =
-                        e.target.result;
+            updateMap();
 
-                    coverPreview.classList.remove(
-                        'd-none'
-                    );
 
+            /*
+            |--------------------------------------------------------------------------
+            | COVER PREVIEW
+            |--------------------------------------------------------------------------
+            */
+
+            const coverInput =
+                document.getElementById('cover_image');
+
+            const coverPreview =
+                document.getElementById('coverPreview');
+
+
+            coverInput.addEventListener(
+                'change',
+                function(event) {
+
+                    const file =
+                        event.target.files[0];
+
+                    if (!file) {
+
+                        coverPreview.classList.add(
+                            'd-none'
+                        );
+
+                        return;
+                    }
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(e) {
+
+                            coverPreview.src =
+                                e.target.result;
+
+                            coverPreview.classList.remove(
+                                'd-none'
+                            );
+
+                        };
+
+
+                    reader.readAsDataURL(file);
+
+                }
+            );
+
+
+            // PREVIEW FOTO MEMPELAI
+            function previewCouplePhoto(input, previewId) {
+                const preview = document.getElementById(previewId);
+
+                if (!input.files || !input.files[0]) {
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
                 };
 
+                reader.readAsDataURL(input.files[0]);
+            }
 
-            reader.readAsDataURL(file);
+            const groomPhotoInput = document.getElementById('groom_photo');
+            const bridePhotoInput = document.getElementById('bride_photo');
 
-        }
-    );
+            if (groomPhotoInput) {
+                groomPhotoInput.addEventListener('change', function() {
+                    previewCouplePhoto(this, 'groomPhotoPreview');
+                });
+            }
 
-    
-    // PREVIEW FOTO MEMPELAI
-    function previewCouplePhoto(input, previewId) {
-        const preview = document.getElementById(previewId);
+            if (bridePhotoInput) {
+                bridePhotoInput.addEventListener('change', function() {
+                    previewCouplePhoto(this, 'bridePhotoPreview');
+                });
+            }
 
-        if (!input.files || !input.files[0]) {
-            return;
-        }
 
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-            preview.src = event.target.result;
-            preview.style.display = 'block';
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-
-    const groomPhotoInput = document.getElementById('groom_photo');
-    const bridePhotoInput = document.getElementById('bride_photo');
-
-    if (groomPhotoInput) {
-        groomPhotoInput.addEventListener('change', function () {
-            previewCouplePhoto(this, 'groomPhotoPreview');
         });
-    }
-
-    if (bridePhotoInput) {
-        bridePhotoInput.addEventListener('change', function () {
-            previewCouplePhoto(this, 'bridePhotoPreview');
-        });
-    }
-
-
-});
-
-</script>
-
+    </script>
 @endpush
